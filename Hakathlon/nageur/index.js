@@ -3,11 +3,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //récupération des éléments
     let canvas = document.getElementById('canvas');
+    let canvasLife = document.getElementById('canvasLife');
 
     let secondes = 0;
     let minutes = 0;
     let on = false;
-    let reset = false;
+    //barre de vie
+    let life = 200;
 
     //dimensions des éléments
     longueur_nageur = 50;
@@ -19,8 +21,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //contexte du canvas en 2D
     let ctx = canvas.getContext('2d');
+    let ctxLife = canvasLife.getContext('2d');
+   
+    //barre de vie pleine
+    drawLine(ctxLife, 0, 0, life, 0, 20, "red")
 
     //couleurs
+    canvasLife.style.border = "1px solid green";
     canvas.style.backgroundColor = "#369EC1"; //couleur background color du canvas
     let couleur_nageur = "black";
     let couleur_requin = "#586A83";
@@ -91,7 +98,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //déclenche l'animation
     function demarre() {
-        
         d = setInterval(dessineTout, 20);
         d;
         //démarre le chrono
@@ -112,6 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
         requins.forEach(requin => {
             requin.x -= 1;
             dessine(requin);
+    
         });
         meduses.forEach(meduse => {
             meduse.y += 1;
@@ -132,7 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
         compteur_y = 0;
         //pour chaque obstacle
         obstacles.forEach(obstacle => {
-            //si les coordonnées de l'air du nageur est égale à celle d'un obstacle
+            //si les coordonnées de l'aire du nageur est égale à celle d'un obstacle
             if (nageur.x >= obstacle.x && nageur.x <= obstacle.x + obstacle.longueur) {
                 compteur_x++;
             }
@@ -146,10 +153,24 @@ document.addEventListener('DOMContentLoaded', () => {
                 compteur_y++;
             }
             if (compteur_x > 0 && compteur_y > 0) {
-                //stoppe le chrono
-                stop();
-                return clearInterval(d); //stoppe la boucle du temps 
                 
+                console.log(life)
+                
+                //la collision baisse la barre de vie
+                if (life > 0){
+                    life -= 1
+                    //barre de vie redessinée
+                    drawLine(ctxLife, 0, 0, life, 0, 20, "red")
+                }
+                //si la barre est à 0..
+                if (life == 0){
+                //stoppe le chrono 
+                stop();
+                hightScore()
+                //stoppe la boucle du temps
+                return clearInterval(d);
+                 
+                }
             } else {
                 compteur_x = 0;
                 compteur_y = 0;
@@ -157,6 +178,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+    
 
     //------------timer------------------
     
@@ -198,15 +220,34 @@ document.addEventListener('DOMContentLoaded', () => {
             clearTimeout(timerID);
           }
         }
-     
+
+//----------------Life-------------------------------------
+//pour tracer la barre de vie
+        function drawLine(ctx, x1, y1, x2, y2, lineWidth, color){
+            ctx.clearRect(0, 0, 200, 10);
+            ctx.beginPath()
+            ctx.moveTo(x1,y1)
+            ctx.lineTo(x2,y2)
+            ctx.lineWidth = lineWidth
+            ctx.strokeStyle = color
+            ctx.stroke()
+        }
+
+        function hightScore(){
+
+            let score = document.getElementById("timer").textContent
+            
+        }
+
 });
+
 
 class protagoniste {
     constructor(hauteur, longueur, x, y, couleur) {
         this.hauteur = hauteur,
-            this.longueur = longueur,
-            this.x = x,
-            this.y = y,
-            this.couleur = couleur
+        this.longueur = longueur,
+        this.x = x,
+        this.y = y,
+        this.couleur = couleur
     }
 }
