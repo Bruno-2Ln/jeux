@@ -11,73 +11,73 @@ document.addEventListener('DOMContentLoaded', () => {
 
     displayHightScores(scoresData);
 
-    function displayHightScores(x){
+    function displayHightScores(x) {
 
-    let hightScoresFragment = document.createDocumentFragment();
-    
-    let tabScores = document.createElement("table");
+        let hightScoresFragment = document.createDocumentFragment();
 
-    let thead = document.createElement('thead');
-    let tbody = document.createElement('tbody');
+        let tabScores = document.createElement("table");
 
-    let thName = document.createElement('th');
-    let thPoints = document.createElement('th');
-    let thOrder = document.createElement('th');
-    
-    thName.textContent = "Nom";
-    thPoints.textContent = "Pts";
-    thOrder.textContent = "#";
-    
-    scoresArray.classList.add("container");
-    scoresArray.classList.add("d-flex");
-    scoresArray.classList.add("justify-content-center");
-    scoresArray.classList.add("align-items-center");
-    scoresArray.classList.add("h-75");
+        let thead = document.createElement('thead');
+        let tbody = document.createElement('tbody');
 
-    tabScores.classList.add("table")
-    tabScores.classList.add("w-50");
-    tabScores.classList.add("table-info");
+        let thName = document.createElement('th');
+        let thPoints = document.createElement('th');
+        let thOrder = document.createElement('th');
 
-    thName.classList.add("text-center");
-    thPoints.classList.add("text-center");
-    thOrder.classList.add("text-center");
+        thName.textContent = "Nom";
+        thPoints.textContent = "Pts";
+        thOrder.textContent = "#";
 
-    thead.classList.add("thead-light");
+        scoresArray.classList.add("container");
+        scoresArray.classList.add("d-flex");
+        scoresArray.classList.add("justify-content-center");
+        scoresArray.classList.add("align-items-center");
+        scoresArray.classList.add("h-75");
 
-    thead.appendChild(thOrder);
-    thead.appendChild(thName);
-    thead.appendChild(thPoints);
+        tabScores.classList.add("table")
+        tabScores.classList.add("w-50");
+        tabScores.classList.add("table-info");
 
-    tabScores.appendChild(thead);
+        thName.classList.add("text-center");
+        thPoints.classList.add("text-center");
+        thOrder.classList.add("text-center");
+
+        thead.classList.add("thead-light");
+
+        thead.appendChild(thOrder);
+        thead.appendChild(thName);
+        thead.appendChild(thPoints);
+
+        tabScores.appendChild(thead);
 
 
-    x.forEach(data => {
-        let tr = document.createElement('tr');
-        let tdPlayerName = document.createElement('td');
-        let tdPlayerScore = document.createElement('td'); 
-        let tdPlayerOrder = document.createElement('td');
+        x.forEach(data => {
+            let tr = document.createElement('tr');
+            let tdPlayerName = document.createElement('td');
+            let tdPlayerScore = document.createElement('td');
+            let tdPlayerOrder = document.createElement('td');
 
-        tdPlayerName.textContent = data.name;
-        tdPlayerScore.textContent = data.score;
-        tdPlayerOrder.textContent = order;
+            tdPlayerName.textContent = data.name;
+            tdPlayerScore.textContent = data.score;
+            tdPlayerOrder.textContent = order;
 
-        tr.appendChild(tdPlayerOrder);
-        tr.appendChild(tdPlayerName);
-        tr.appendChild(tdPlayerScore);
+            tr.appendChild(tdPlayerOrder);
+            tr.appendChild(tdPlayerName);
+            tr.appendChild(tdPlayerScore);
 
-        tdPlayerName.classList.add("text-center");
-        tdPlayerScore.classList.add("text-center");
-        tdPlayerOrder.classList.add("text-center");
-        tdPlayerOrder.classList.add("w-25");
+            tdPlayerName.classList.add("text-center");
+            tdPlayerScore.classList.add("text-center");
+            tdPlayerOrder.classList.add("text-center");
+            tdPlayerOrder.classList.add("w-25");
 
-        order++
-        hightScoresFragment.appendChild(tr);
-    })
-    
-    tbody.appendChild(hightScoresFragment);
-    tabScores.appendChild(tbody);
-    scoresArray.appendChild(tabScores);
-    
+            order++
+            hightScoresFragment.appendChild(tr);
+        })
+
+        tbody.appendChild(hightScoresFragment);
+        tabScores.appendChild(tbody);
+        scoresArray.appendChild(tabScores);
+
     }
 
 })

@@ -4,11 +4,15 @@ document.addEventListener('DOMContentLoaded', () => {
     //récupération des éléments
     let canvas = document.getElementById('canvas');
     let canvasLife = document.getElementById('canvasLife');
+    let bouton = document.getElementById('bouton_play');
 
     //chrono
     let secondes = 0;
     let minutes = 0;
     let on = false;
+
+    //barre de vie
+    let life = 200;
 
     //détermine l'id du joueur au départ de la partie..
     let idPlayer = Date.now()
@@ -19,9 +23,15 @@ document.addEventListener('DOMContentLoaded', () => {
     let scores = [];
     let minuts = document.getElementById('minuts');
     let seconds = document.getElementById('seconds');
-   
-    //barre de vie
-    let life = 200;
+
+    let bande_son = new Audio("sons/bande_son.mp3");
+
+    //tableau contenant toutes les méduses
+    let meduses = [];
+    //tableau contenant tous les requins 
+    let requins = [];
+    //tableau contenant les tirs
+    let tirs = [];
 
     //dimensions des éléments
     longueur_bateau = 50;
@@ -47,6 +57,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let bateau = new protagoniste(10, 300, hauteur_bateau, longueur_bateau);
 
+    /***************************
+     * affichages des éléments *
+     **************************/
+
     function dessine_thomas() {
         let image_thomas = new Image(longueur_bateau, hauteur_bateau);
         image_thomas.src = "images/thomas-jet.png";
@@ -57,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function affiche_requins() {
         requins.forEach(requin => {
             let image_requin = new Image(longueur_requin, hauteur_requin); //créer une nouvelle image
-            image_requin.src = "images/requin2.png"; //récupère l'image
+            image_requin.src = "images/requin3.png"; //récupère l'image
 
             ctx.drawImage(image_requin, requin.x, requin.y); //dessine l'image aux coordonnées voulues
         });
@@ -66,11 +80,50 @@ document.addEventListener('DOMContentLoaded', () => {
     function affiche_meduse() {
         meduses.forEach(meduse => {
             let image_meduse = new Image(longueur_meduse, hauteur_meduse);
-            image_meduse.src = "images/meduse.png";
+            image_meduse.src = "images/meduse1.png";
 
             ctx.drawImage(image_meduse, meduse.x, meduse.y);
         });
     }
+
+    function affiche_tir() {
+        tirs.forEach(tir => {
+            ctx.beginPath();
+            ctx.fillRect(tir.x, tir.y, tir.longueur, tir.hauteur);
+            ctx.fillStyle = 'white';
+
+        });
+    }
+
+    //dessine tous les éléments du canvas
+    function dessineTout() {
+        ctx.clearRect(0, 0, 1280, 720); //efface tout le canvas avant de redessiner
+        compteur += 1; //incrémente le compteur pour ajouter des obstacles
+        if ((compteur % 200) === 0 || compteur === 1) {
+            ajoute_requin();
+            ajoute_meduse();
+        }
+        meduses.forEach(meduse => {
+            meduse.y += 1;
+            meduse.x -= 1;
+            affiche_meduse();
+        });
+        requins.forEach(requin => {
+            requin.x -= 1;
+            affiche_requins();
+        });
+        tirs.forEach(tir => {
+            tir.x += 1;
+            affiche_tir();
+        });
+        dessine_thomas();
+        verifie_collisions();
+        verifie_tirs();
+    }
+
+    /*************************
+     * actions et mouvements *
+     ************************/
 
     //mouvement du bateau de Thomas
     document.addEventListener('keydown', (e) => {
@@ -99,12 +152,23 @@ document.addEventListener('DOMContentLoaded', () => {
                     bateau.y = 580;
                 }
                 break;
+            case " ": //barre d'espace pour les tirs
+                ajoute_tir();
+                break;
         }
-
     });
 
-    //tableau contenant tous les requins 
-    let requins = [];
+    /**********************
+     * ajout des éléments *
+     *********************/
+
+    //ajoute un tir au tableau avec les coordonnées du bateau
+    function ajoute_tir() {
+        let tir = new protagoniste(bateau.x + longueur_bateau, bateau.y + (hauteur_bateau / 2), 2, 10);
+        tirs.push(tir);
+
+    }
+
     //ajoute un requin au tableau avec les ordonnées du bateau
     function ajoute_requin() {
         requins.push(
@@ -112,14 +176,16 @@ document.addEventListener('DOMContentLoaded', () => {
         );
     }
 
-    //tableau contenant toutes les méduses
-    let meduses = [];
-    //ajoute une meduse au tableau de méduses
+    //ajiute une meduse au tableau de méduses
     function ajoute_meduse() {
         meduses.push(
             meduse = new protagoniste(bateau.x + 600, 0, hauteur_meduse, longueur_meduse)
         );
     }
+
+    /********************
+     * démarrage du jeu *
+     *******************/
 
     //déclenche l'animation
     function demarre() {
@@ -128,35 +194,32 @@ document.addEventListener('DOMContentLoaded', () => {
         d;
         //démarre le chrono
         start();
+        bande_son.play();
     }
-    demarre();
+
+    bouton.addEventListener('click', () => {
+        demarre();
+    });
 
 
-    //dessine tous les éléments du canvas
-    function dessineTout() {
-        ctx.clearRect(0, 0, 1280, 720); //efface tout le canvas avant de redessiner
-        compteur += 1; //incrémente le compteur pour ajouter des obstacles        
-        if ((compteur % 200) === 0 || compteur === 1) {
-            ajoute_requin();
-            ajoute_meduse();
-        }
-        requins.forEach(requin => {
-            requin.x -= 1;
-            affiche_requins();
-        });
-        meduses.forEach(meduse => {
-            meduse.y += 1;
-            meduse.x -= 1;
-            affiche_meduse();
-        });
-        dessine_thomas();
-        verifie_collisions();
-    }
+
+
+    /*****************
+     * vérifications *
+     ****************/
 
     function verifie_collisions() {
         //avec les requins
         verifie_collision(requins);
+        //avec les méduses
         verifie_collision(meduses);
+    }
+
+    function verifie_tirs() {
+        //avec les requins
+        verifie_impact(requins);
+        //avec les meduses
+        verifie_impact(meduses);
     }
 
     function verifie_collision(obstacles) {
@@ -182,16 +245,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 //la collision baisse la barre de vie
                 if (life > 0) {
                     life -= 1
-                    //barre de vie redessinée
+                        //barre de vie redessinée
                     drawLine(ctxLife, 0, 0, life, 0, 20, "red")
                 }
                 //si la barre est à 0..
-                if (life == 0) {
-
+                if (life <= 0) {
                     //stoppe le chrono 
                     stop();
-                    clearInterval(d); //stoppe la boucle du temps
-                    setTimeout(verifyScore(), 20000);
+                    clearInterval(d); //stoppe la boucle du temps 
+                    bande_son.pause();
+                    verifyScore();
                 }
             } else {
                 compteur_x = 0;
@@ -201,7 +264,26 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    function verifie_impact(obstacles) {
+        obstacles.forEach(element => {
+            tirs.forEach(tir => {
+                if (tir.x + tir.longueur >= element.x &&
+                    tir.x + tir.longueur <= element.x + element.longueur &&
+                    tir.y > element.y &&
+                    tir.y < element.y + element.hauteur &&
+                    tir.y + tir.hauteur > element.y &&
+                    tir.y + tir.hauteur < element.y + element.hauteur
+                ) {
+                    console.log('ok')
+                    obstacles = obstacles.filter(e => e !== element);
+                }
+            });
+        });
+    }
+
     //------------timer------------------
+
+
 
     function chrono() {
         secondes += 1;
@@ -213,9 +295,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (minutes < 10 && secondes < 10) {
             minuts.textContent = "0" + minutes;
-            seconds.textContent =  "0" + secondes;
+            seconds.textContent = "0" + secondes;
         } else if (minutes < 10 && secondes >= 10) {
-            minuts.textContent = "0" + minutes ;
+            minuts.textContent = "0" + minutes;
             seconds.textContent = secondes;
         } else if (minutes >= 10 && secondes < 10) {
             minuts.textContent = minutes;
@@ -224,6 +306,7 @@ document.addEventListener('DOMContentLoaded', () => {
             minuts.textContent = minutes;
             seconds.textContent = secondes;
         }
+
     }
 
     function start() {
@@ -256,66 +339,68 @@ document.addEventListener('DOMContentLoaded', () => {
     //------------Hight-Score----------------------------------
 
     //TODO : Rajouter la demande du nom joueur pour le récupérer dans la création prototype
-    function verifyScore(){
+    function verifyScore() {
         let totalScore = calculScore()
-        
+
         console.log(idPlayer)
-        //si la clé higth_scores existe
-        if (JSON.parse(localStorage.getItem("higth_scores"))){
+            //si la clé higth_scores existe
+        if (JSON.parse(localStorage.getItem("higth_scores"))) {
             //convertion du fichier JSON
             let scoresView = JSON.parse(localStorage.getItem("higth_scores"))
-            
+
             //vérification si l'idJoueur existe déjà
-            if ((playerRow = scoresView.find((row) => row.id === idPlayer))){
+            if ((playerRow = scoresView.find((row) => row.id === idPlayer))) {
                 idExist = true;
             }
             //si l'id n'existe pas déjà alors on rajoute au tableau des scores
             if (!idExist) {
-            scoresView.push(
-                    scoreJoueur = new HightScore(idPlayer,"abc", totalScore)
+                scoresView.push(
+                    scoreJoueur = new HightScore(idPlayer, "abc", totalScore)
                 )
             }
             //classement des scores
-            scoresView.sort(function (a,b) {
+            scoresView.sort(function(a, b) {
                 return a.score - b.score;
             }).reverse()
 
             //pas plus de 10 scores possibles sur le tableau
-            if (scoresView.length > 10){
+            if (scoresView.length > 10) {
                 scoresView.pop();
             }
             //et reconversion en JSON pour intégrer le localStorage
             let scoresJSON = JSON.stringify(scoresView)
-            
+
             return localStorage.setItem("higth_scores", scoresJSON);
-            
+
             //si la clé n'existe pas
         } else {
             scores.push(
-                scoreJ = new HightScore(idPlayer,"abc", totalScore)
-                )
+                scoreJ = new HightScore(idPlayer, "abc", totalScore)
+            )
             let scoresJSON = JSON.stringify(scores)
-            
+
             return localStorage.setItem("higth_scores", scoresJSON);
-        }    
-         
+        }
+
     }
 
     //(à décommenter pour vider le localStorage pour les tests)
     //localStorage.clear()
-   
+
     //fonction de calcul des scores PROVISOIRE (le temps pour terminer devrait être
     //un malus plutôt qu'un bonus)
-    function calculScore(){
+    function calculScore() {
         //conversion des minutes en secondes
-        let m = parseInt(minuts.textContent*60)
-        //récupération des secondes
+        let m = parseInt(minuts.textContent * 60)
+            //récupération des secondes
         let s = parseInt(seconds.textContent)
-        //calcul des deux
+            //calcul des deux
         return m + s
     }
 
 });
+
+
 
 class protagoniste {
     constructor(x, y, hauteur, longueur) {
@@ -325,6 +410,7 @@ class protagoniste {
         this.longueur = longueur;
     }
 }
+
 
 class HightScore {
     constructor(id, name, score){
