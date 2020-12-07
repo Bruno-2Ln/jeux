@@ -275,7 +275,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     scoreJoueur = new HightScore(idPlayer,"abc", totalScore)
                 )
             }
-
             //classement des scores
             scoresView.sort(function (a,b) {
                 return a.score - b.score;
@@ -287,7 +286,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             //et reconversion en JSON pour intégrer le localStorage
             let scoresJSON = JSON.stringify(scoresView)
-            console.log("red")
             
             return localStorage.setItem("higth_scores", scoresJSON);
             
@@ -297,7 +295,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 scoreJ = new HightScore(idPlayer,"abc", totalScore)
                 )
             let scoresJSON = JSON.stringify(scores)
-            console.log("blue")
+            
             return localStorage.setItem("higth_scores", scoresJSON);
         }    
          
@@ -317,7 +315,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return m + s
     }
 
-    
 });
 
 class protagoniste {
