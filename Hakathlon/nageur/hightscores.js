@@ -7,8 +7,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let order = 1;
     scoresData = JSON.parse(localStorage.getItem("higth_scores"));
 
-    container.classList.add("bg-primary")
-
     displayHightScores(scoresData);
 
     function displayHightScores(x) {
