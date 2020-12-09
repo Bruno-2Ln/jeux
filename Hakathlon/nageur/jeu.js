@@ -5,7 +5,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let canvas = document.getElementById('canvas');
     let canvasLife = document.getElementById('canvasLife');
     let bouton = document.getElementById('bouton_play');
-    let div_bouton = document.getElementById('div_bouton');
     let requinKills = document.getElementById('requinKills');
     let meduseKills = document.getElementById('meduseKills');
     let flagAdd = document.getElementById('flagAdd');
@@ -27,16 +26,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //détermine l'id du joueur au départ de la partie..
     let idPlayer = Date.now()
-        //plus un bouléen à false car l'id n'existe pas encore dans les scores
+    //plus un bouléen à false car l'id n'existe pas encore dans les scores
     let idExist = false
 
     //tableau des scores
     let scores = [];
-    let minuts = document.getElementById('minuts');
     let seconds = document.getElementById('seconds');
     seconds.textContent = 45;
 
+    //nombre de points
+    let nbrR = 0;
+    let nbrM = 0;
+    let nbrF = 0;
+
+    //sons
     let bande_son = new Audio("sons/bande_son.mp3");
+    let tir_bateau = new Audio("sons/tir_bateau.mp3");
 
     //tableau contenant toutes les méduses
     let meduses = [];
@@ -58,6 +63,8 @@ document.addEventListener('DOMContentLoaded', () => {
     hauteur_meduse = 40;
     longueur_drapeau = 25;
     hauteur_drapeau = 30;
+    longueur_corse = 200;
+    hauteur_corse = 400;
 
 
     //contexte du canvas en 2D
@@ -81,8 +88,13 @@ document.addEventListener('DOMContentLoaded', () => {
     //compteur de temps pour dessiner les obstacles
     let compteur = 0;
 
-    //setIntervalle qui bouge tout le jeu
+    //setIntervalle
     let bouge_tout_le_monde;
+    let intervalle_fin_du_jeu;
+    let intervalle_nbr_requins;
+    let intervalle_nbr_meduses;
+    let intervalle_nbr_flags;
+    let intervalle_score_final;
 
     //booleen pour un tir dans le canvas
     let booleen_tir = true;
@@ -90,6 +102,14 @@ document.addEventListener('DOMContentLoaded', () => {
     //dessin du bateau de Thomas
     let image_source_thomas = "images/thomas-jet.png";
     let bateau = new protagoniste(10, 180, hauteur_bateau, longueur_bateau, image_source_thomas);
+
+    //dessin de la corse
+    let corse_source = "images/arrivee.png";
+    let corse = new protagoniste(1150, 50, hauteur_corse, longueur_corse, corse_source);
+
+    $(window).on('load',function(){
+        $('#myModal').modal('show');
+    });
 
     /***************************
      * affichages des éléments *
@@ -138,14 +158,21 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    function affiche_corse() {
+        let image_corse = new Image(longueur_corse, hauteur_corse);
+        image_corse.src = corse.source;
+        ctx.drawImage(image_corse, corse.x, corse.y);
+    }
+
     //dessine tous les éléments du canvas
     function dessineTout() {
-        ctx.clearRect(0, 0, 1280, 720); //efface tout le canvas avant de redessiner
+        ctx.clearRect(0, 0, longueur_canvas, hauteur_canvas); //efface tout le canvas avant de redessiner
         compteur += 1; //incrémente le compteur pour ajouter des obstacles
         //si les requins sortent de l'écran on le sort du tableau
         verifie_positions_requins();
         //si les meduses sortent de l'écran on le sort du tableau
         verifie_positions_meduses();
+
         if ((compteur % 200) === 0 || compteur === 1) {
             ajoute_meduse();
             ajoute_requin();
@@ -174,16 +201,131 @@ document.addEventListener('DOMContentLoaded', () => {
         verifie_drapeau();
         //si la jauge de tir inférieur à 200
         if (power < 100) {
-            //on rajoute +1
+            //on rajoute 0.5
             power += 0.5
                 //et on redessine la jauge
             drawLine(ctxPower, 0, 0, power, 0, 20, "blue")
-                //si elle passe à 200, le tir est de nouveau possible
+                //si elle passe à 100, le tir est de nouveau possible
             if (power === 100) {
                 booleen_tir = true;
             }
         }
     }
+
+    let nb = 0;
+    let score = parseInt(requinKills.textContent) + parseInt(meduseKills.textContent) * 3 + parseInt(flagAdd.textContent) * 10 + life;
+    //affichage de la victoire et des points
+    function affiche_victoire() {
+        ctx.clearRect(0, 0, longueur_canvas, hauteur_canvas); //vide le cancas
+        canvas.style.backgroundColor = "white";
+        ctx.beginPath();
+        ctx.strokeStyle = "black";
+        ctx.font = "bold 100px Arial"; //font police affichage
+        ctx.strokeText('Victoire', 400, 300);
+        setTimeout(() => {
+            ctx.clearRect(0, 0, longueur_canvas, hauteur_canvas);
+            ctx.beginPath();
+            ctx.strokeStyle = "black";
+            ctx.font = "bold 50px Arial"; //font police affichage
+            demarre_interval_requins_tues();
+        }, 1000);
+    }
+
+    function demarre_interval_requins_tues() {
+        ctx.strokeText('Nombre de requins tués : ', 10, 100);
+        intervalle_nbr_requins = setInterval(affiche_nombre_requins_tues, 50);
+        intervalle_nbr_requins;
+    }
+
+    function demarre_interval_meduses_tuees() {
+        ctx.strokeText('Nombre de méduses tuées : ', 10, 200);
+        intervalle_nbr_meduses = setInterval(affiche_nombre_meduses_tuees, 50);
+        intervalle_nbr_meduses
+    }
+
+    function demarre_interval_flag_ramasses() {
+        ctx.strokeText('Nombre de drapeaux ramassés : ', 10, 300);
+        intervalle_nbr_flags = setInterval(affiche_nombre_flags_ramasses, 20);
+        intervalle_nbr_flags
+    }
+
+    function demarre_intervalle_score() {
+        ctx.strokeText('Score : ', 50, 400);
+        intervalle_score_final = setInterval(affiche_score_final, 10);
+        intervalle_score_final;
+    }
+
+    function affiche_nombre_requins_tues() {
+        ctx.clearRect(950, 50, 150, 55);
+
+        if (nb < parseInt(requinKills.textContent)) {
+            ctx.strokeText(nb, 1000, 100);
+            nb++;
+        } else {
+            clearInterval(intervalle_nbr_requins);
+            ctx.strokeText(parseInt(requinKills.textContent), 1000, 100);
+            nb = 0;
+            demarre_interval_meduses_tuees();
+        }
+    }
+
+    function affiche_nombre_meduses_tuees() {
+        ctx.clearRect(950, 150, 150, 55);
+
+        if (nb < parseInt(meduseKills.textContent)) {
+            ctx.strokeText(nb, 1000, 200);
+            nb++;
+        } else {
+            clearInterval(intervalle_nbr_meduses);
+            ctx.strokeText(parseInt(meduseKills.textContent), 1000, 200);
+            nb = 0;
+            demarre_interval_flag_ramasses();
+        }
+    }
+
+    function affiche_nombre_flags_ramasses() {
+        ctx.clearRect(950, 250, 150, 55);
+
+        if (nb < parseInt(flagAdd.textContent)) {
+            ctx.strokeText(nb, 1000, 300);
+            nb++;
+        } else {
+            clearInterval(intervalle_nbr_flags);
+            ctx.strokeText(parseInt(flagAdd.textContent), 1000, 300);
+            nb = 0;
+            demarre_intervalle_score();
+        }
+    }
+
+    function affiche_score_final() {
+        ctx.clearRect(700, 350, 400, 55);
+
+        if (nb < score) {
+            ctx.strokeText(nb, 750, 400);
+            nb++;
+        } else {
+            clearInterval(intervalle_score_final);
+            ctx.strokeText(score, 750, 400);
+            nb = 0;
+            setTimeout(() => {
+                document.location.href = "hightscores.html";
+            }, 1000);
+        }
+    }
+
+    function affiche_gameover() {
+        ctx.clearRect(0, 0, longueur_canvas, hauteur_canvas);
+        canvas.style.backgroundColor = "black";
+        ctx.beginPath();
+        ctx.font = 'bold 100px Arial';
+        ctx.strokeStyle = "red";
+        ctx.strokeText('Game Over', 300, 300);
+        setTimeout(() => {
+            document.location.href = "hightscores.html";
+        }, 1000);
+    }
+
+
 
     /*************************
      * actions et mouvements *
@@ -221,7 +363,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     ajoute_tir();
                     power = 0
                     booleen_tir = false;
-                    drawLine(ctxPower, 0, 0, power, 0, 20, "blue")
+                    drawLine(ctxPower, 0, 0, power, 0, 20, "blue");
+                    tir_bateau.play();
                 }
                 break;
         }
@@ -250,7 +393,7 @@ document.addEventListener('DOMContentLoaded', () => {
             source = "images/requin3.png";
         }
         requins.push(
-            requin = new protagoniste(1200, bateau.y, hauteur_requin, longueur_requin, source)
+            requin = new protagoniste(1100, bateau.y, hauteur_requin, longueur_requin, source)
 
         );
     }
@@ -263,11 +406,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function ajoute_drapeau() {
-        let source = "images/corse_mini.png";
+        let source = "images/flag.png";
         //donne une abscisse aléatoire entre 600 et 1000
         let x = donne_nombre_entier_aleatoire(600, 1000);
-        //donne une ordonnée aléatoire entre 0 et 500
-        let y = donne_nombre_entier_aleatoire(0, 500);
+        //donne une ordonnée aléatoire entre 50 et 500
+        let y = donne_nombre_entier_aleatoire(50, 500);
         drapeaux.push(
             drapeau = new accessoires(x, y, hauteur_drapeau, longueur_drapeau, source, 1)
         );
@@ -299,7 +442,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function demarre() {
         //je dois supprimer le bouton car lorsqu'on appuie sur la barre d'espace
         //on réctive le bouton
-        div_bouton.innerHTML = "";
+        //div_bouton.innerHTML = "";
         bouge_tout_le_monde = setInterval(dessineTout, 20);
         bouge_tout_le_monde;
         attente_ajoute_drapeau();
@@ -348,15 +491,41 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function verifie_drapeau() {
         drapeaux.forEach(drapeau => {
+            let collision = 0;
             if (drapeau.etat === 1) {
                 if (drapeau.x >= bateau.x &&
                     drapeau.x <= bateau.x + longueur_bateau &&
                     drapeau.y >= bateau.y &&
                     drapeau.y <= bateau.y + hauteur_bateau
                 ) {
-                    drapeau.etat = 0; //fait disparaître le drapeau
-                    flagAdd.textContent++;
+                    collision++;
                 }
+                if (drapeau.x >= bateau.x &&
+                    drapeau.x <= bateau.x + longueur_bateau &&
+                    drapeau.y + hauteur_drapeau >= bateau.y &&
+                    drapeau.y + hauteur_drapeau <= bateau.y + hauteur_bateau
+                ) {
+                    collision++;
+                }
+                if (drapeau.x + longueur_drapeau >= bateau.x &&
+                    drapeau.x + longueur_drapeau <= bateau.x + longueur_bateau &&
+                    drapeau.y + hauteur_drapeau >= bateau.y &&
+                    drapeau.y + hauteur_drapeau <= bateau.y + hauteur_bateau
+                ) {
+                    collision++;
+                }
+                if (drapeau.x + longueur_drapeau >= bateau.x &&
+                    drapeau.x + longueur_drapeau <= bateau.x + longueur_bateau &&
+                    drapeau.y >= bateau.y &&
+                    drapeau.y <= bateau.y + hauteur_bateau
+                ) {
+                    collision++;
+                }
+            }
+
+            if (collision > 0) {
+                drapeau.etat = 0; //fait disparaître le drapeau
+                flagAdd.textContent++;
             }
         });
     }
@@ -385,16 +554,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (life > 0) {
                     life -= 0.5
                     console.log(life)
-                        //barre de vie redessinée
+                    //barre de vie redessinée
                     drawLine(ctxLife, 0, 0, life, 0, 20, "red")
                 }
                 //si la barre est à 0..
                 if (life === 0) {
-                    clearInterval(bouge_tout_le_monde); //stoppe la boucle du temps 
+                    //stoppe la boucle du temps
+                    clearInterval(bouge_tout_le_monde); 
                     //stoppe le chrono 
                     stop();
                     bande_son.pause();
-                    verifyScore();
+                    affiche_gameover();
                 }
             } else {
                 compteur_x = 0;
@@ -435,6 +605,16 @@ document.addEventListener('DOMContentLoaded', () => {
         return impact;
     }
 
+    function verifie_collision_corse() {
+        if (bateau.x + longueur_bateau - 10 > corse.x) {
+            verifyScore()
+            clearInterval(intervalle_fin_du_jeu);
+            setTimeout(() => {
+                affiche_victoire();
+            }, 1000);
+        }
+    }
+
     //------------timer------------------
 
 
@@ -443,12 +623,13 @@ document.addEventListener('DOMContentLoaded', () => {
         seconds.textContent--;
 
         if (seconds.textContent < 10) {
-        
-            seconds.textContent = "0" + seconds.textContent;
-        } 
 
-        if (seconds.textContent == "0" + 0){
+            seconds.textContent = "0" + seconds.textContent;
+        }
+
+        if (seconds.textContent == "0" + 0) {
             clearInterval(bouge_tout_le_monde);
+            active_intervalle_fin_du_jeu();
             stop()
         }
 
@@ -483,7 +664,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //------------Hight-Score----------------------------------
 
-    //TODO : Rajouter la demande du nom joueur pour le récupérer dans la création prototype
+    
     function verifyScore() {
         let totalScore = calculScore()
         let pseudoJoueur = JSON.parse(localStorage.getItem("pseudo"))
@@ -527,21 +708,76 @@ document.addEventListener('DOMContentLoaded', () => {
 
             return localStorage.setItem("higth_scores", scoresJSON);
         }
+    }
+
+    /**************
+     * fin du jeu *
+     *************/
+
+    function active_intervalle_fin_du_jeu() {
+        intervalle_fin_du_jeu = setInterval(fin_du_jeu, 20);
+        intervalle_fin_du_jeu;
+    }
+
+    function fin_du_jeu() {
+        //efface le contenu du canvas
+        ctx.clearRect(0, 0, longueur_canvas, hauteur_canvas);
+
+        //vérfifie les positions des obstacles
+        //si les requins sortent de l'écran on le sort du tableau
+        verifie_positions_requins();
+        //si les meduses sortent de l'écran on le sort du tableau
+        verifie_positions_meduses();
+
+        //affichage des éléments
+        meduses.forEach(meduse => {
+            meduse.y += 1;
+            meduse.x -= 1;
+            affiche_meduse();
+        });
+        requins.forEach(requin => {
+            requin.x -= 1;
+            affiche_requins();
+        });
+        tirs.forEach(tir => {
+            tir.x += 4;
+            affiche_tir();
+        });
+        corse.x -= 1;
+        affiche_corse();
+        dessine_thomas();
+
+        //vérifications des collisions
+        verifie_collisions();
+        verifie_tirs();
+        verifie_drapeau();
+        verifie_collision_corse();
+
+        //si la jauge de tir inférieur à 200
+        if (power < 100) {
+            //on rajoute 0.5
+            power += 0.5
+                //et on redessine la jauge
+            drawLine(ctxPower, 0, 0, power, 0, 20, "blue")
+                //si elle passe à 100, le tir est de nouveau possible
+            if (power === 100) {
+                booleen_tir = true;
+            }
+        }
 
     }
 
     //(à décommenter pour vider le localStorage pour les tests)
     //localStorage.removeItem("higth_scores")
 
-    //fonction de calcul des scores PROVISOIRE (le temps pour terminer devrait être
-    //un malus plutôt qu'un bonus)
-    function calculScore() {
-        //conversion des minutes en secondes
-        let m = parseInt(minuts.textContent * 60)
-            //récupération des secondes
-        let s = parseInt(seconds.textContent)
-            //calcul des deux
-        return m + s
+     //fonction de calcul des scores
+     function calculScore() {
+
+        nbrR = parseInt(requinKills.textContent)
+        nbrM = parseInt(meduseKills.textContent)*3
+        nbrF = parseInt(flagAdd.textContent)*10
+     
+        return nbrR + nbrM + nbrF + life
     }
 
 });

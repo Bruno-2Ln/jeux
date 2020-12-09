@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let thPoints = document.createElement('th');
         let thOrder = document.createElement('th');
 
-        thName.textContent = "Nom";
+        thName.textContent = "Pseudo";
         thPoints.textContent = "Pts";
         thOrder.textContent = "#";
 
@@ -31,10 +31,11 @@ document.addEventListener('DOMContentLoaded', () => {
         scoresArray.classList.add("justify-content-center");
         scoresArray.classList.add("align-items-center");
         scoresArray.classList.add("h-75");
+        scoresArray.classList.add("tabScores")
 
         tabScores.classList.add("table")
         tabScores.classList.add("w-50");
-        tabScores.classList.add("table-info");
+        tabScores.classList.add("table-light");
 
         thName.classList.add("text-center");
         thPoints.classList.add("text-center");
@@ -58,6 +59,8 @@ document.addEventListener('DOMContentLoaded', () => {
             tdPlayerName.textContent = data.name;
             tdPlayerScore.textContent = data.score;
             tdPlayerOrder.textContent = order;
+
+            tdPlayerOrder.classList.add("order")
 
             tr.appendChild(tdPlayerOrder);
             tr.appendChild(tdPlayerName);

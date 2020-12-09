@@ -8,19 +8,21 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
-    <title>Document</title>
+    <link rel="stylesheet" href="main.css">
+    <title>Top 10</title>
 </head>
 
 <body>
-    <div id="container" style="height:50rem; background-color: #369EC1;">
+    <div id="container" class="bg-dark" style="height:60rem;">
         <header class="h-25 d-flex flex-column justify-content-center align-items-center">
 
-            <h1 class="text-center mb-5">Top 10</h1>
- <div class="w-50 container d-flex justify-content-center align-items-center">
-     <a href="index.html"><button class="btn btn-dark m-2">Accueil</button></a>
-     <a href="jeu.html"><button class="btn btn-dark m-2">Jouer</button></a>
-            <a href="#"><button class="btn btn-dark m-2">Jeux</button></a>
-        </div>
+            <h1 id="title-topscores" class="text-center m-5">Top 10</h1>
+            <div class="w-50 container d-flex justify-content-center align-items-center">
+                <a href="index.html"><button class="btn btn-light m-2 btn-page">Accueil</button></a>
+                <a href="jeu.html"><button class="btn btn-light m-2 btn-page">Jouer</button></a>
+                <a href="#"><button class="btn btn-light m-2 btn-page">Jeux</button></a>
+            </div>
+
         </header>
        
         <div id="scoresArray"></div>
