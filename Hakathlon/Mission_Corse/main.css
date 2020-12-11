@@ -1,0 +1,103 @@
+@font-face {
+    font-family: 'imposs';
+    src: url('impos0__-webfont.woff2') format('woff2'), url('impos0__-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+/**************/
+
+
+/***jeu.html***/
+
+
+/**************/
+
+#modalTitle {
+    font-family: 'imposs';
+    font-size: 3em;
+    color: red;
+}
+
+#mission {
+    font-size: 1.09em;
+}
+
+
+/*****************/
+
+
+/***index.html***/
+
+
+/****************/
+
+#title {
+    font-family: 'imposs';
+    font-size: 6em;
+    color: red;
+}
+
+.btn-page {
+    font-family: 'imposs';
+    font-size: 1.5em;
+    color: red;
+}
+
+#pseudoJoueur,
+.tabScores {
+    font-family: 'imposs';
+    font-size: 1.5em;
+}
+
+.form-control:focus {
+    border-color: red!important;
+    box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.25);
+}
+
+#background {
+    background-image: url('images/index.png');
+    background-repeat: no-repeat;
+    background-position: top;
+}
+
+#divGlobale {
+    height: 90%;
+}
+
+
+/***********************/
+
+
+/***hightscores.html****/
+
+
+/***********************/
+
+#title-topscores {
+    font-family: 'imposs';
+    font-size: 5em;
+    color: red;
+}
+
+.order {
+    color: red;
+}
+
+.nbrScore {
+    font-family: 'imposs';
+    font-size: 1.1em;
+}
+
+.finalScore,
+#h_score {
+    font-family: 'imposs';
+    font-size: 2em;
+    color: red;
+}
+
+.tr_score {
+    font-family: 'imposs';
+    font-size: 2em;
+}

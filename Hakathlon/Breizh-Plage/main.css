@@ -1,0 +1,33 @@
+@font-face {
+    font-family: 'breathe_fire';
+    src: url('breathe_fire-webfont.woff2') format('woff2'),
+         url('breathe_fire-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+#title{
+    font-family: 'breathe_fire';
+    font-size:6em;
+}
+
+#modalTitle{
+    font-family: 'breathe_fire';
+    font-size: 5em;
+}
+
+#mission {
+    font-size: 1.09em;
+}
+
+.btn-page, #pseudoJoueur {
+    font-family: 'breathe_fire';
+    font-size: 1.5em;
+    color: white;
+    background-color: black;
+}
+
+.balles img{
+    max-height: 46px;
+}

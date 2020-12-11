@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="main.css">
+    <script src="jeu.js"></script>
+    <title>Breizh-Plage</title>
+</head>
+
+<body>
+
+<!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content bg-info text-light">
+                <div class="modal-header bg-info">
+                    <h3 class="modal-title w-100 text-center" id="modalTitle"></h3>
+                </div>
+                <div class="modal-body text-justify" id="mission">
+                    <p>C'est la cuite de trop pour Thomas... Il a accepté de rejoindre Yannick pour ses vancances d'été...</p>
+                    <p>Ses plages, ses galets, ses crèpes, son coca, ses nuages .. Mais surtout.. Ses Goélands !!</p>
+                    <p>Yannick pensait le convaincre que le soleil Breton n'était pas un mythe.. Il a donc sorti son plus beau ciret jaune pour en profiter "pleinement".. logique ! </p>
+                    <p>C'est son plus beau ciret, son précieux, transmis de génération en génération, pas question de le salir !!!</p>
+                    <p>Aide Thomas à protéger le ciret des fientes des volatiles ("de ses grands morts").
+                    <p>C'est simple tu vises et tu tires. Mais attention ton stock et limité ! Tu peux aussi à l'aide des touches directionnelles faire bouger
+                        Yannick de gauche à droite.. Regarde-le, on dirait qu'il danse fièrement le breton !
+                    </p>
+                        Si ton stock est épuisé ou si Yannick s'en prend une, la partie est terminée !</p>
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <button type="button" id="play" class="btn btn-light btn-page" data-dismiss="modal">PULL !</button>
+                </div>
+            </div>
+        </div>
+  </div>
+  
+  <div class="modal fade" id="modalGameOver" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content bg-dark text-light">
+              <div class="modal-body d-flex flex-column align-items-center" id="gameOver">
+                 <img src="https://via.placeholder.com/600x500" alt="game over">
+              
+                  <div class="modal-footer d-flex justify-content-center">
+                      <a href="jeu.html">
+                          <button class="btn btn-light btn-page">Rejouer</button>
+                      </a>
+                      <a href="index.html">
+                          <button class="btn btn-light btn-page">Accueil</button>
+                      </a>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+
+
+    <div id="jeu" class="container-fluid d-flex flex-column align-items-center bg-info" style="height:47rem;">
+        <div class="d-flex justify-content-around container">
+        <div id="div_compteur_mouettes" class="w-25">
+
+            <div><img src="" alt=""> </div>
+            <div id="compteur_mouettes"></div>
+            <div id="div_play"></div>
+                
+        </div>
+
+        <div id="chrono" class="font-weight-bold display-4 w-25">
+            <div id="timer" class="text-center"><span id="minuts">00</span>:<span id="seconds">00</span></div>
+        </div>
+
+        <div class="w-25">
+                
+        </div>
+</div>
+        <div class="d-flex">
+         
+            <div class="d-flex flex-column">
+                <div class="d-flex">
+                    <div class="balles" id="item0"> <img src="images/balle_shoot.png" alt=""> </div>
+                    <div class="balles" id="item1"> <img src="images/balle_shoot.png" alt=""> </div>
+                </div>
+                <div class="d-flex">
+                    <div class="balles" id="item2"> <img src="images/balle_shoot.png" alt=""> </div>
+                    <div class="balles" id="item3"> <img src="images/balle_shoot.png" alt=""> </div>
+                </div>
+                <div class="d-flex">
+                    <div class="balles" id="item4"> <img src="images/balle_shoot.png" alt=""> </div>
+                    <div class="balles" id="item5"> <img src="images/balle_shoot.png" alt=""> </div>
+                </div>
+                <div class="d-flex">
+                    <div class="balles" id="item6"> <img src="images/balle_shoot.png" alt=""> </div>
+                    <div class="balles" id="item7"> <img src="images/balle_shoot.png" alt=""> </div>
+                </div>
+                <div class="d-flex">
+                    <div class="balles" id="item8"> <img src="images/balle_shoot.png" alt=""> </div>
+                    <div class="balles" id="item9"> <img src="images/balle_shoot.png" alt=""> </div>
+                </div>
+                <div class="d-flex">
+                    <div class="balles" id="item10"> <img src="images/balle_shoot.png" alt=""> </div>
+                    <div class="balles" id="item11"> <img src="images/balle_shoot.png" alt=""> </div>
+                </div>
+                <div class="d-flex">
+                    <div class="balles" id="item12"> <img src="images/balle_shoot.png" alt=""> </div>
+                    <div class="balles" id="item13"> <img src="images/balle_shoot.png" alt=""> </div>
+                </div>
+                <div class="d-flex">
+                    <div class="balles" id="item14"> <img src="images/balle_shoot.png" alt=""> </div>
+                    <div class="balles" id="item15"> <img src="images/balle_shoot.png" alt=""> </div>
+                </div>
+                <div class="d-flex">
+                    <div class="balles" id="item16"> <img src="images/balle_shoot.png" alt=""> </div>
+                    <div class="balles" id="item17"> <img src="images/balle_shoot.png" alt=""> </div>
+                </div>
+                <div class="d-flex">
+                    <div class="balles" id="item18"> <img src="images/balle_shoot.png" alt=""> </div>
+                    <div class="balles" id="item19"> <img src="images/balle_shoot.png" alt=""> </div>
+                </div>
+                <div class="d-flex">
+                    <div class="balles" id="item20"> <img src="images/balle_shoot.png" alt=""> </div>
+                    <div class="balles" id="item21"> <img src="images/balle_shoot.png" alt=""> </div>
+                </div>
+                <div class="d-flex">
+                    <div class="balles" id="item22"> <img src="images/balle_shoot.png" alt=""> </div>
+                    <div class="balles" id="item23"> <img src="images/balle_shoot.png" alt=""> </div>
+                </div>
+            </div>
+
+            <canvas width="1000" height="550" id="canvas"></canvas>
+
+            <div class="d-flex flex-column">
+                <div class="d-flex">
+                    <div class="balles" id="item24"> <img src="images/balle_shoot.png" alt=""> </div>
+                    <div class="balles" id="item25"> <img src="images/balle_shoot.png" alt=""> </div>
+                </div>
+                <div class="d-flex">
+                    <div class="balles" id="item26"> <img src="images/balle_shoot.png" alt=""> </div>
+                    <div class="balles" id="item27"> <img src="images/balle_shoot.png" alt=""> </div>
+                </div>
+                <div class="d-flex">
+                    <div class="balles" id="item28"> <img src="images/balle_shoot.png" alt=""> </div>
+                    <div class="balles" id="item29"> <img src="images/balle_shoot.png" alt=""> </div>
+                </div>
+                <div class="d-flex">
+                    <div class="balles" id="item30"> <img src="images/balle_shoot.png" alt=""> </div>
+                    <div class="balles" id="item31"> <img src="images/balle_shoot.png" alt=""> </div>
+                </div>
+                <div class="d-flex">
+                    <div class="balles" id="item32"> <img src="images/balle_shoot.png" alt=""> </div>
+                    <div class="balles" id="item33"> <img src="images/balle_shoot.png" alt=""> </div>
+                </div>
+                <div class="d-flex">
+                    <div class="balles" id="item34"> <img src="images/balle_shoot.png" alt=""> </div>
+                    <div class="balles" id="item35"> <img src="images/balle_shoot.png" alt=""> </div>
+                </div>
+                <div class="d-flex">
+                    <div class="balles" id="item36"> <img src="images/balle_shoot.png" alt=""> </div>
+                    <div class="balles" id="item37"> <img src="images/balle_shoot.png" alt=""> </div>
+                </div>
+                <div class="d-flex">
+                    <div class="balles" id="item38"> <img src="images/balle_shoot.png" alt=""> </div>
+                    <div class="balles" id="item39"> <img src="images/balle_shoot.png" alt=""> </div>
+                </div>
+                <div class="d-flex">
+                    <div class="balles" id="item40"> <img src="images/balle_shoot.png" alt=""> </div>
+                    <div class="balles" id="item41"> <img src="images/balle_shoot.png" alt=""> </div>
+                </div>
+                <div class="d-flex">
+                    <div class="balles" id="item42"> <img src="images/balle_shoot.png" alt=""> </div>
+                    <div class="balles" id="item43"> <img src="images/balle_shoot.png" alt=""> </div>
+                </div>
+                <div class="d-flex">
+                    <div class="balles" id="item44"> <img src="images/balle_shoot.png" alt=""> </div>
+                    <div class="balles" id="item45"> <img src="images/balle_shoot.png" alt=""> </div>
+                </div>
+                <div class="d-flex">
+                    <div class="balles" id="item46"> <img src="images/balle_shoot.png" alt=""> </div>
+                    <div class="balles" id="item47"> <img src="images/balle_shoot.png" alt=""> </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+</body>
+
+</html>
