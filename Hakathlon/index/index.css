@@ -1,0 +1,27 @@
+@font-face {
+    font-family: 'fluo';
+    src: url('fluo_gums-webfont.woff2') format('woff2'), url('fluo_gums-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+#panneau_haut {
+    border: 15px solid rgb(186, 003, 000);
+    min-width: 700px;
+    min-height: 330px;
+}
+
+h1 {
+    font-family: 'fluo';
+    font-size: 3em;
+    color: rgb(47, 46, 36);
+    height: 50%;
+    width: 50%;
+    background-color: white;
+    letter-spacing: 5px;
+    border-radius: 20%;
+}
+
+body {
+    background-color: #9dd7e3;
+}
