@@ -101,3 +101,30 @@
     font-family: 'imposs';
     font-size: 2em;
 }
+
+#timer {
+    font-family: 'imposs';
+}
+
+#endTitle {
+    font-family: 'imposs';
+    font-size: 3em;
+    color: red;
+}
+
+#endMess{
+    font-size: 1.4em;
+}
+
+#messGameOver{
+    font-size: 1.4em;
+    font-family: 'imposs';
+    color: red;
+}
+
+#G_O{
+    font-size: 9em;
+    font-family: 'imposs';
+    color: red;
+    letter-spacing: 5px;
+}

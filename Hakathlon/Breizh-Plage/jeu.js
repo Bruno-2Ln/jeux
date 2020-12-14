@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-$(window).on('load', function() {
-    $('#myModal').modal('show');
-});
+    $(window).on('load', function() {
+        $('#myModal').modal('show');
+    });
 
     /********************* jeu de tir********************************************* */
 
@@ -24,11 +24,12 @@ $(window).on('load', function() {
 
     //dimensions du canvas
     let longueur_canvas = 1000;
-    let hauteur_canvas = 600;
+    let hauteur_canvas = 550;
 
     let mouettes = []; //tableau contenant les mouettes créées venant de la gauche sous forme de class volatiles (avec leurs coordonnées)
     let merdes = []; //tableau contenant les merdes demouettes crées sous forme de class projectiles (avec leurs coordonnées)
     let mouettes_droite = []; //tableau contenant les mouettes venant de la droite
+    let yannick_array = [];
 
     let compteur_mouettes_tuees = 0; //compteur de mouettes tuées
 
@@ -36,7 +37,7 @@ $(window).on('load', function() {
     let hauteur_mouette = 28;
     let longueur_merde = 10;
     let hauteur_merde = 10;
-    let longueur_yannick = 70;
+    let longueur_yannick = 80;
     let hauteur_yannick = 50;
     let positiony_yannick = 430;
 
@@ -46,6 +47,14 @@ $(window).on('load', function() {
 
     let nbr_balles = 47;
     let array_balles = [];
+
+    //détermine l'id du joueur au départ de la partie..
+    let idPlayer = Date.now()
+    //plus un bouléen à false car l'id n'existe pas encore dans les scores
+    let idExist = false
+
+    //tableau des scores
+    let scores = [];
 
     //booleen qui arrète l'action de tir et bruitage si la partie est finie
     let alive = true;
@@ -64,7 +73,10 @@ $(window).on('load', function() {
     let pet = new Audio("sons/pet.wav");
     let tir = new Audio("sons/pistolet.mp3");
     let bande_son = new Audio("sons/bande_son.mp3");
-    affiche_yannick()
+
+    let scoreMouettes = 0;
+    let mouettes_simples = 0;
+    let mouettes_dorees = 0;
     /******************************************
      * définition des couleurs et du contexte *
      *****************************************/
@@ -84,19 +96,20 @@ $(window).on('load', function() {
      * Yannick*
      ********/
 
-    let yannick = new personnage(500, 350, longueur_yannick, hauteur_yannick);
+    function creer_yannick() {
+        let yannick = new personnage(500, 350, longueur_yannick, hauteur_yannick);
+        yannick_array.push(yannick);
+    }
 
     //insertion de yannick
     function affiche_yannick() {
-        
-
         //affiche l'image de Yannick
-        image_yannick = new Image(50, 50);
-        image_yannick.src = "images/breton_ft_minsize.png";
+        yannick_array.forEach(yannick => {
+            let image_yannick = new Image(50, 50);
+            image_yannick.src = "images/breton_ft_minsize.png";
 
-        image_yannick.onload = () => {
             ctx.drawImage(image_yannick, yannick.x, yannick.y); //définit la position de l'image
-        }
+        });
     }
 
     /*************************/
@@ -109,14 +122,14 @@ $(window).on('load', function() {
     textColor("Breizh-Plage", divTitle)
 
     //va colorer le texte
-    function textColor(text, parent){
-        for (let i = 0; i <= text.length; i++){
+    function textColor(text, parent) {
+        for (let i = 0; i <= text.length; i++) {
             let span = document.createElement('span');
             span.textContent = text[i]
-            if (i%2 == 0){
-            span.style.color = "black"  
+            if (i % 2 == 0) {
+                span.style.color = "black"
             } else {
-                span.style.color = "white"  
+                span.style.color = "white"
             }
             parent.appendChild(span)
         }
@@ -124,33 +137,35 @@ $(window).on('load', function() {
 
     /*****************************/
     /*****Suppression de balle****/
-    /*****************************/   
+    /*****************************/
 
     //va supprimer une balle de l'écran de jeu
-    function sub_balle(){
+    function sub_balle() {
         //récupération de la collection
-        let balles = document.getElementsByClassName('balles'); 
-            //passage en tableau
-            for (let i = 0; i <= balles.length; i ++){
+        let balles = document.getElementsByClassName('balles');
+        //passage en tableau
+        for (let i = 0; i <= balles.length; i++) {
             array_balles.push(balles[i]);
-            }
-            //récupération de l'index du tableau
-            let last_balle = array_balles[nbr_balles];
-            //on fait disparaitre la balle
-            last_balle.classList.add("d-none")
+        }
+        //récupération de l'index du tableau
+        let last_balle = array_balles[nbr_balles];
+        //on fait disparaitre la balle
+        last_balle.classList.add("d-none")
             //on enlève une balle
-            nbr_balles--;
-            //si plus de munition fin du jeu
-            if (nbr_balles == -1){
-                alive = false
-                clearInterval(mouette_creation_intervalle);
-                clearInterval(mouette_droite_creation_intervalle);
-                clearInterval(mouette_intervalle);
-                clearInterval(interval_mouette_chie);
-                clearInterval(interval_chrono);
-                bande_son.pause();
-                console.log("score :" + calculScore())
-            }
+        nbr_balles--;
+        //si plus de munition fin du jeu
+        if (nbr_balles == -1) {
+            alive = false
+            clearInterval(mouette_creation_intervalle);
+            clearInterval(mouette_droite_creation_intervalle);
+            clearInterval(mouette_intervalle);
+            clearInterval(interval_mouette_chie);
+            clearInterval(interval_chrono);
+            bande_son.pause();
+            console.log("score :" + calculScore())
+            verifyScore()
+            document.location.href = "top_10.html";
+        }
     }
 
     /**********************************
@@ -268,6 +283,7 @@ $(window).on('load', function() {
 
     play.addEventListener('click', () => {
         bande_son.play();
+        creer_yannick();
         timer_cree_mouettes();
         timer_cree_mouettes_droite();
         timer_deplace_tout();
@@ -277,40 +293,54 @@ $(window).on('load', function() {
         canvas.addEventListener('click', (e) => {
             console.log('x' + e.clientX)
             console.log('y' + e.clientY)
-            //si le jeu est en cours alors bruits et tirs possibles
-            if (alive){ 
-            //bruitage coup de feu
-            feu();
-            sub_balle()
+                //si le jeu est en cours alors bruits et tirs possibles
+            if (alive) {
+                //bruitage coup de feu
+                feu();
+                sub_balle()
             }
 
             mouettes.forEach(mouette => {
 
                 //si les coordonnées du tir sont compris dans les coordonnées de l'image de la mouette
                 if ((e.clientX - position_left) > (mouette.x) &&
-                    (e.clientX - position_left) < (mouette.x + longueur_mouette) &&
+                    (e.clientX - position_left) < (mouette.x + longueur_mouette + 10) &&
                     (e.clientY - position_top) > (mouette.y) &&
-                    (e.clientY - position_top) < (mouette.y + hauteur_mouette)
+                    (e.clientY - position_top) < (mouette.y + hauteur_mouette + 10)
                 ) {
+                    if (mouette.doree === 0){
+                        scoreMouettes += 5
+                        mouettes_simples += 1
+                    } else {
+                        scoreMouettes += 20
+                        mouettes_dorees += 1
+                    }
                     //on sort la mouette du tableau de mouettes
                     mouettes = mouettes.filter(m => m !== mouette);
                     compteur_mouettes_tuees++;
                     div_compteur.innerHTML = compteur_mouettes_tuees;
-                    verifie_balles();
+                    
                     mouette_crie();
                 }
             });
             mouettes_droite.forEach(mouette => {
                 if ((e.clientX - position_left) > (mouette.x) &&
-                    (e.clientX - position_left) < (mouette.x + longueur_mouette) &&
+                    (e.clientX - position_left) < (mouette.x + longueur_mouette + 10) &&
                     (e.clientY - position_top) > (mouette.y) &&
-                    (e.clientY - position_top) < (mouette.y + hauteur_mouette)
+                    (e.clientY - position_top) < (mouette.y + hauteur_mouette + 10)
                 ) {
+                    if (mouette.doree === 0){
+                        scoreMouettes += 5
+                        mouettes_simples += 1
+                    } else {
+                        scoreMouettes += 20
+                        mouettes_dorees += 1
+                    }
                     //on sort la mouette du tableau de mouettes
                     mouettes_droite = mouettes_droite.filter(m => m !== mouette);
                     compteur_mouettes_tuees++;
                     div_compteur.innerHTML = compteur_mouettes_tuees;
-                    verifie_balles();
+                   
                     mouette_crie();
                 }
             });
@@ -327,18 +357,17 @@ $(window).on('load', function() {
         switch (e.key) {
             case "ArrowLeft":
                 e.preventDefault(); //élimine l'action par défaut
-                yannick.x -= 2;
-                if (yannick.x < 0) {
-                    yannick.x = 0;
+                yannick_array[0].x -= 2;
+                if (yannick_array[0].x < 0) {
+                    yannick_array[0].x = 0;
                 }
-                console.log(yannick.x)
                 break;
 
             case "ArrowRight":
                 e.preventDefault();
-                yannick.x += 2;
-                if (yannick.x > longueur_canvas) {
-                    yannick.x -= 2;
+                yannick_array[0].x += 2;
+                if (yannick_array[0].x > longueur_canvas) {
+                    yannick_array[0].x -= 2;
                 }
                 break;
         }
@@ -346,6 +375,7 @@ $(window).on('load', function() {
 
     function bouge_tout() {
         ctx.clearRect(0, 0, longueur_canvas, hauteur_canvas);
+        affiche_yannick();
         mouettes.forEach(mouette => {
             mouette.x += 2;
         });
@@ -360,7 +390,6 @@ $(window).on('load', function() {
             merde.y += 2;
         });
         affiche_merde();
-        affiche_yannick();
 
         verifie_position_mouette();
         verifie_positions_mouette_droite();
@@ -405,17 +434,17 @@ $(window).on('load', function() {
             secondes = 0;
         }
 
-        if ( minutes < 10 && secondes < 10) {
+        if (minutes < 10 && secondes < 10) {
             minuts.textContent = "0" + minutes
             seconds.textContent = "0" + secondes;
-        
+
         } else if (minutes < 10 && secondes >= 10) {
             minuts.textContent = "0" + minutes
             seconds.textContent = secondes;
-    
+
         } else if (minutes >= 10 && secondes < 10) {
-                minuts.textContent = minutes;
-                seconds.textContent = "0" + secondes;
+            minuts.textContent = minutes;
+            seconds.textContent = "0" + secondes;
         } else if (minutes >= 10 && secondes > 10) {
             minuts.textContent = minutes;
             seconds.textContent = secondes;
@@ -445,8 +474,8 @@ $(window).on('load', function() {
     function verifie_position_merdes() {
         for (let i = 0; i < merdes.length; i++) {
             if (merdes[i].y >= positiony_yannick - 70 &&
-                merdes[i].x >= yannick.x &&
-                merdes[i].x <= yannick.x + longueur_yannick
+                merdes[i].x >= yannick_array[0].x + 8 &&
+                merdes[i].x <= yannick_array[0].x - 5 + longueur_yannick
             ) {
                 clearInterval(mouette_creation_intervalle);
                 clearInterval(mouette_intervalle);
@@ -455,25 +484,14 @@ $(window).on('load', function() {
                 clearInterval(interval_chrono);
                 alive = false;
                 bande_son.pause();
-                console.log("score :" + calculScore())
-                console.log('mort');
+                verifyScore()
+                document.location.href = "top_10.html";
             }
 
             if (merdes[i].y > hauteur_canvas) {
                 //supprime la merde du tableau
                 merdes.splice(i, 1);
             }
-        }
-    }
-
-    function verifie_balles() {
-        if (balles.length === 0) {
-            clearInterval(mouette_creation_intervalle);
-            clearInterval(mouette_droite_creation_intervalle);
-            clearInterval(mouette_intervalle);
-            clearInterval(interval_mouette_chie);
-            clearInterval(interval_chrono);
-            bande_son.pause();
         }
     }
 
@@ -485,21 +503,81 @@ $(window).on('load', function() {
         cri_mouette.play();
     }
 
-});
+/*************************** */
 
+
+function verifyScore() {
+    let totalScore = calculScore()
+
+    localStorage.setItem("playerScoreBretagne", totalScore);
+
+    //déclaration de la fin du jeu dans le localStorage
+    localStorage.setItem("endGameBretagne", true);
+    //récupération du pseudo
+    let pseudoJoueur = JSON.parse(localStorage.getItem("pseudoBretagne"))
+
+    //si la clé higth_scores existe
+    if (JSON.parse(localStorage.getItem("higth_scores_bretagne"))) {
+        //convertion du fichier JSON
+        let scoresView = JSON.parse(localStorage.getItem("higth_scores_bretagne"))
+
+        //vérification si l'idJoueur existe déjà
+        if ((playerRow = scoresView.find((row) => row.id === idPlayer))) {
+            idExist = true;
+        }
+        //si l'id n'existe pas déjà alors on rajoute au tableau des scores
+        if (!idExist) {
+            scoresView.push(
+                scoreJoueur = new HightScore(idPlayer, pseudoJoueur, totalScore)
+            )
+        }
+        //classement des scores
+        scoresView.sort(function(a, b) {
+            return a.score - b.score;
+        }).reverse()
+
+        //pas plus de 10 scores possibles sur le tableau
+        if (scoresView.length > 10) {
+            scoresView.pop();
+        }
+        //et reconversion en JSON pour intégrer le localStorage
+        let scoresJSON = JSON.stringify(scoresView)
+
+        if ((playerRow = scoresView.find((row) => row.id === idPlayer))) {
+            localStorage.setItem("top_10_bretagne", true)
+        }
+
+        return localStorage.setItem("higth_scores_bretagne", scoresJSON);
+
+        //si la clé n'existe pas
+    } else {
+        scores.push(
+            scoreJ = new HightScore(idPlayer, pseudoJoueur, totalScore)
+        )
+        let scoresJSON = JSON.stringify(scores)
+        localStorage.setItem("top_10_bretagne", true)
+        return localStorage.setItem("higth_scores_bretagne", scoresJSON);
+    }
+}
+
+//localStorage.clear()
 /****************************/
 /*****Calcul des scores******/
 /****************************/
 
-function calculScore(){
+    function calculScore(){
 
-    let nbrMouettes = document.getElementById("compteur_mouettes")
 
-    let time = parseInt(seconds.textContent) + parseInt(minuts.textContent)*60
-    let killsM = parseInt(nbrMouettes.textContent)*5
+        let time = parseInt(seconds.textContent) + parseInt(minuts.textContent)*60
 
-    return (time + killsM)
-}
+        localStorage.setItem("chrono_bretagne", time);
+        localStorage.setItem("nbr_mouettes", mouettes_simples);
+        localStorage.setItem("nbr_mouettes_dorees", mouettes_dorees);
+
+        return (parseInt(time + scoreMouettes))
+    }
+
+});
 
 /*********************/
 /*******Classe********/
@@ -530,5 +608,13 @@ class personnage {
         this.y = y;
         this.longueur = longueur;
         this.hauteur = hauteur;
+    }
+}
+
+class HightScore {
+    constructor(id, name, score) {
+        this.id = id;
+        this.name = name;
+        this.score = score;
     }
 }

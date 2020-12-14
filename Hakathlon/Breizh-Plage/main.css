@@ -1,18 +1,16 @@
 @font-face {
     font-family: 'breathe_fire';
-    src: url('breathe_fire-webfont.woff2') format('woff2'),
-         url('breathe_fire-webfont.woff') format('woff');
+    src: url('breathe_fire-webfont.woff2') format('woff2'), url('breathe_fire-webfont.woff') format('woff');
     font-weight: normal;
     font-style: normal;
-
 }
 
-#title{
+#title {
     font-family: 'breathe_fire';
-    font-size:6em;
+    font-size: 6em;
 }
 
-#modalTitle{
+#modalTitle {
     font-family: 'breathe_fire';
     font-size: 5em;
 }
@@ -21,13 +19,86 @@
     font-size: 1.09em;
 }
 
-.btn-page, #pseudoJoueur {
+.btn-page,
+#pseudoJoueur {
     font-family: 'breathe_fire';
     font-size: 1.5em;
     color: white;
     background-color: black;
 }
 
-.balles img{
+.balles img {
     max-height: 46px;
+}
+
+#background {
+    background-image: url('images/index2.png');
+    background-repeat: no-repeat;
+    background-position: top;
+    border: black solid 10px;
+    width: 64%;
+}
+
+#divGlobale {
+    height: 86%;
+}
+
+#pseudoJoueur {
+    width: 200px;
+}
+
+#title-topscores {
+    font-family: 'breathe_fire';
+    font-size: 5em;
+}
+
+.tabScores {
+    font-family: 'breathe_fire';
+    font-size: 1.5em;
+}
+
+#modalTitle,
+#endTitle {
+    font-family: 'breathe_fire';
+    font-size: 3em;
+}
+
+#endMess {
+    font-size: 1.4em;
+}
+
+.nbrScore {
+    font-family: 'breathe_fire';
+    font-size: 1.1em;
+}
+
+.finalScore,
+#h_score {
+    font-family: 'breathe_fire';
+    font-size: 2em;
+    color: yellow;
+}
+
+.tr_score {
+    font-family: 'breathe_fire';
+    font-size: 2em;
+}
+
+#timer {
+    font-family: 'breathe_fire';
+}
+
+#jeu {
+    display: flex;
+}
+
+#div_compteur_mouettes {
+    display: flex;
+    flex-direction: column;
+}
+
+#compteur_mouettes {
+    text-align: center;
+    font-size: 2em;
+    font-weight: bold;
 }

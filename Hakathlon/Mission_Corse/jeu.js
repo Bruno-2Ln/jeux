@@ -492,7 +492,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (bateau.x + longueur_bateau - 10 > corse.x) {
             verifyScore()
             clearInterval(intervalle_fin_du_jeu);
-            document.location.href = "hightscores.html";
+            document.location.href = "top_10.html";
         }
     }
 
