@@ -26,7 +26,7 @@
 * ## Mission:Corse :
 ### Notre formateur étant corse et fan des missions impossibles, nous avons implémenté un jeu consistant à traverser la mer en jet-ski pour rejoindre la Corse en 45 secondes sur fond de générique de la musique célèbre des films de la franchise. 
 
-<img src="Mission_Corse/images/corse.png" width="400"alt="page d'accueil du jeu mission:Corse">
+<img src="Hakathlon/Mission_Corse/images/corse.png" width="800" alt="page d'accueil du jeu mission:Corse">
 
 
 ### Les touches directionnelles permettant de récupérer des drapeaux Corse ou d'échapper aux requins et méduses. La touche espace permettant de tirer sur ces derniers.
