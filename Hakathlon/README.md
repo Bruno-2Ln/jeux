@@ -20,7 +20,7 @@
 
 ## Spécifications techniques :
 
-### Nos jeux reposent sur l'utilisation de Javascript et principalement son canvas et la méthode setInterval(). L'utilisation du localStorage a permis de communiquer entre les pages pour stocker le pseudo, prévenir la fin du jeu et afficher en conséquence une modale pour un calcul dynamique des scores et définir si le score de la partie intègre ou non le top10.
+### Nos jeux reposent sur l'utilisation de Javascript et principalement son canvas et la méthode setInterval(). L'utilisation du localStorage a permis de communiquer entre les pages pour stocker le pseudo, prévenir la fin du jeu et afficher en conséquence une modale pour un calcul dynamique des scores et définir si le score de la partie intègre ou non le top10. Cette modale est créée en JS en utilisant la méthode document.createDocumentFragment(), améliorant les performances puisque le fragment étant stocké en mémoire et non dans l'arbre DOM, les modifications qui lui sont apportées n'enntraînent pasde calcul de position des éléments de la page.
 
 ### Bootstrap nous a permis de gagner du temps pour styliser nos page, compte tenu du délai court du challenge et de notre effectif réduit.
 
@@ -28,44 +28,44 @@
 * ## Mission:Corse :
 ### Notre formateur étant corse et fan des missions impossibles, nous avons implémenté un jeu consistant à traverser la mer en jet-ski pour rejoindre la Corse en 45 secondes sur fond de générique de la musique célèbre des films de la franchise. 
 
-<img src="hakathlon/Mission_Corse/images/corse.png" width="400" alt="page d'accueil du jeu mission:Corse">
+<img src="Mission_Corse/images/corse.png" width="900" alt="page d'accueil du jeu mission:Corse">
 
 
 ### Les touches directionnelles permettant de récupérer des drapeaux Corse ou d'échapper aux requins et méduses. La touche espace permettant de tirer sur ces derniers.
 
 ### accueil du joueur par une modale et un texte de mise en situation
 
-<img src="hakathlon/Mission_Corse/images/modale-1.png" width="400" alt="fenêtre modale de présentation du jeu mission:Corse">
+<img src="Mission_Corse/images/modale-1.png" width="900" alt="fenêtre modale de présentation du jeu mission:Corse">
 
 ### la partie commence
 
-<img src="hakathlon/Mission_Corse/images/ecran_jeu-1.png" width="400" alt="écran de jeu de mission:Corse">
+<img src="Mission_Corse/images/ecran_jeu-1.png" width="900" alt="écran de jeu de mission:Corse">
 
 ### Si la jauge de vie tombe à 0, une modale annonce le game over
 
-<img src="hakathlon/Mission_Corse/images/gameover.png" width="400" alt="fenêtre game over du jeu mission:Corse">
+<img src="Mission_Corse/images/gameover.png" width=900" alt="fenêtre game over du jeu mission:Corse">
 
 ### Si le joueur atteint la corse à la fin du décompte des 45 secondes, redirection vers la page des top10 pour un calcul dynamique des scores en fonction du nombres de requins et méduses tués, drapeaux attrapés et vie restante.
 
-<img src="hakathlon/Mission_Corse/images/score-1.png" width="200" alt="calcul des scores du jeu mission:Corse">
+<img src="Mission_Corse/images/score-1.png" width="200" alt="calcul des scores du jeu mission:Corse">
 
 * ## Breizh-Plage :
 
 ### Le second jeu prend la direction de la bretagne, ceci étant un clin d'oeil à la région d'origine de l'un de nos collègues de formation.
 ### Cette fois notre formateur se rend en Bretagne voir ce collègue, il va devoir l'aider en shootant des goélands pour éviter les fientes des volatiles... (Oui on avait 5 jours et ça nous faisait rigoler)
 
-<img src="hakathlon/Breizh-Plage/images/breizh.png" width="400" alt="page d'accueil du jeu breizh-plage">
+<img src="Breizh-Plage/images/breizh.png" width="900" alt="page d'accueil du jeu breizh-plage">
 
 ### Le joueur va devoir avec la souris viser les goélands et cliquer pour tirer et avec les touches droite et gauche faire bouger le personnage pour éviter les fientes. Le jeu prend fin si le joueur est touché ou si le tireur à épuisé ses cartouches (elles sont représentées autour de l'écran de jeu et chaque tir fait disparaitre une cartouche)
 
 ### L'accueil se fait par une mise situation
 
-<img src="hakathlon/Breizh-Plage/images/modale.png" width="400" alt="fenêtre modale de présentation du jeu breizh-plage">
+<img src="Breizh-Plage/images/modale.png" width="900" alt="fenêtre modale de présentation du jeu breizh-plage">
 
 ### Puis le jeu peut se faire
 
-<img src="hakathlon/Breizh-Plage/images/ecran_jeu.png" width="400" alt="écran de jeu de breizh-plage">
+<img src="Breizh-Plage/images/ecran_jeu.png" width="900" alt="écran de jeu de breizh-plage">
 
 ### Ici pas de game over le jeu prend fin par le calcul des scores, l'intérèt étant cette fois ci un chrono et un gros nombre de goélands abattus pour un score important.
-<img src="hakathlon/Breizh-Plage/images/score.png" width="200" alt="calcul des scores du jeu breizh-plage">
+<img src="Breizh-Plage/images/score.png" width="200" alt="calcul des scores du jeu breizh-plage">
 
