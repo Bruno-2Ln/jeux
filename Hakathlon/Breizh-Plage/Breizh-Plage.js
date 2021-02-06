@@ -32,9 +32,5 @@ document.addEventListener('DOMContentLoaded', () => {
         let pseudoJSON = JSON.stringify(pseudoJoueurContainer.value);
     
         localStorage.setItem('pseudoBretagne', pseudoJSON);
-    
     }
-    
-    //localStorage.removeItem('pseudoBretagne');
-
 })

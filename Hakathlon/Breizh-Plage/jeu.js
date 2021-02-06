@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let hauteur_canvas = 550;
 
     let mouettes = []; //tableau contenant les mouettes créées venant de la gauche sous forme de class volatiles (avec leurs coordonnées)
-    let merdes = []; //tableau contenant les merdes demouettes crées sous forme de class projectiles (avec leurs coordonnées)
+    let fientes = []; //tableau contenant les fientes demouettes crées sous forme de class projectiles (avec leurs coordonnées)
     let mouettes_droite = []; //tableau contenant les mouettes venant de la droite
     let yannick_array = [];
 
@@ -35,8 +35,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let longueur_mouette = 60;
     let hauteur_mouette = 28;
-    let longueur_merde = 10;
-    let hauteur_merde = 10;
+    let longueur_fiente = 10;
+    let hauteur_fiente = 10;
     let longueur_yannick = 80;
     let hauteur_yannick = 50;
     let positiony_yannick = 430;
@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
     //les intervals
     let mouette_intervalle; //contiendra le setIntervalle des déplacements des mouettes
     let mouette_creation_intervalle; //contiendra le setIntervalle des créations des mouettes
-    let tombe_merde_intervalle; //contiendra le setIntervalle des déplacements des merdes de mouettes
+    let tombe_fiente_intervalle; //contiendra le setIntervalle des déplacements des fientes de mouettes
     let interval_mouette_chie; //contiendra le setInterval des chiures
     let interval_chrono; //contiendra le setInterval du chrono
 
@@ -208,9 +208,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    function creer_merde(x, y) {
-        let merde = new projectile(x, y, longueur_merde, hauteur_merde);
-        merdes.push(merde);
+    function creer_fiente(x, y) {
+        let fiente = new projectile(x, y, longueur_fiente, hauteur_fiente);
+        fientes.push(fiente);
         pet.play();
     }
 
@@ -239,12 +239,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function affiche_merde() {
-        merdes.forEach(merde => {
-            let img_merde = new Image(longueur_merde, hauteur_merde);
-            img_merde.src = "images/merde.png";
+    function affiche_fiente() {
+        fientes.forEach(fiente => {
+            let img_fiente = new Image(longueur_fiente, hauteur_fiente);
+            img_fiente.src = "images/fiente.png";
 
-            ctx.drawImage(img_merde, merde.x, merde.y);
+            ctx.drawImage(img_fiente, fiente.x, fiente.y);
         });
     }
 
@@ -386,14 +386,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         affiche_les_mouettes_droite();
 
-        merdes.forEach(merde => {
-            merde.y += 2;
+        fientes.forEach(fiente => {
+            fiente.y += 2;
         });
-        affiche_merde();
+        affiche_fiente();
 
         verifie_position_mouette();
         verifie_positions_mouette_droite();
-        verifie_position_merdes();
+        verifie_position_fientes();
     }
 
     function mouette_chie() {
@@ -409,12 +409,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         //pour les mouettes qui arrivent de la gauche
         if (mouettes[index_aleatoire]) {
-            creer_merde(mouettes[index_aleatoire].x, mouettes[index_aleatoire].y);
+            creer_fiente(mouettes[index_aleatoire].x, mouettes[index_aleatoire].y);
         }
 
         //pour les mouettes qui arrivent de la droite
         if (mouettes_droite[index_aleatoire_droite]) {
-            creer_merde(mouettes_droite[index_aleatoire_droite].x + longueur_mouette, mouettes_droite[index_aleatoire_droite].y)
+            creer_fiente(mouettes_droite[index_aleatoire_droite].x + longueur_mouette, mouettes_droite[index_aleatoire_droite].y)
         }
     }
 
@@ -471,15 +471,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function verifie_position_merdes() {
-        for (let i = 0; i < merdes.length; i++) {
-            if (merdes[i].y >= positiony_yannick - 70 &&
-                merdes[i].x >= yannick_array[0].x + 8 &&
-                merdes[i].x <= yannick_array[0].x - 5 + longueur_yannick
+    function verifie_position_fientes() {
+        for (let i = 0; i < fientes.length; i++) {
+            if (fientes[i].y >= positiony_yannick - 70 &&
+                fientes[i].x >= yannick_array[0].x + 8 &&
+                fientes[i].x <= yannick_array[0].x - 5 + longueur_yannick
             ) {
                 clearInterval(mouette_creation_intervalle);
                 clearInterval(mouette_intervalle);
-                clearInterval(tombe_merde_intervalle);
+                clearInterval(tombe_fiente_intervalle);
                 clearInterval(interval_mouette_chie);
                 clearInterval(interval_chrono);
                 alive = false;
@@ -488,9 +488,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.location.href = "top_10.html";
             }
 
-            if (merdes[i].y > hauteur_canvas) {
-                //supprime la merde du tableau
-                merdes.splice(i, 1);
+            if (fientes[i].y > hauteur_canvas) {
+                //supprime la fiente du tableau
+                fientes.splice(i, 1);
             }
         }
     }

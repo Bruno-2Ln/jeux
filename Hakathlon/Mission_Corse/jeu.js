@@ -547,15 +547,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     function verifyScore() {
+        //calcul du score
         let totalScore = calculScore()
 
         localStorage.setItem("playerScore", totalScore);
-
         //déclaration de la fin du jeu dans le localStorage
         localStorage.setItem("endGame", true);
         //récupération du pseudo
         let pseudoJoueur = JSON.parse(localStorage.getItem("pseudo"))
-
         //si la clé higth_scores existe
         if (JSON.parse(localStorage.getItem("higth_scores"))) {
             //convertion du fichier JSON
@@ -571,13 +570,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     scoreJoueur = new HightScore(idPlayer, pseudoJoueur, totalScore)
                 )
             }
-            //classement des scores
+            //classement des scores du plus grand au plus petit
             scoresView.sort(function(a, b) {
                 return a.score - b.score;
             }).reverse()
-
             //pas plus de 10 scores possibles sur le tableau
             if (scoresView.length > 10) {
+                //si c'est le cas on enlève le 11ème.
                 scoresView.pop();
             }
             //et reconversion en JSON pour intégrer le localStorage
@@ -586,11 +585,11 @@ document.addEventListener('DOMContentLoaded', () => {
             if ((playerRow = scoresView.find((row) => row.id === idPlayer))) {
                 localStorage.setItem("top_10", true)
             }
-
             return localStorage.setItem("higth_scores", scoresJSON);
-
             //si la clé n'existe pas
         } else {
+            //rajout du prototype au tableau avant sa conversion et son
+            //stockage
             scores.push(
                 scoreJ = new HightScore(idPlayer, pseudoJoueur, totalScore)
             )
@@ -598,9 +597,6 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.setItem("top_10", true)
             return localStorage.setItem("higth_scores", scoresJSON);
         }
-
-
-
     }
 
     /**************
@@ -669,7 +665,7 @@ document.addEventListener('DOMContentLoaded', () => {
         nbrR = parseInt(requinKills.textContent)
         nbrM = parseInt(meduseKills.textContent)
         nbrF = parseInt(flagAdd.textContent)
-
+        //statistiques permettant un affichage dynamique dans le top 10
         localStorage.setItem("nbr_requins", nbrR);
         localStorage.setItem("nbr_meduses", nbrM);
         localStorage.setItem("nbr_flags", nbrF);
