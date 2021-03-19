@@ -47,7 +47,7 @@
 
 ### Si le joueur atteint la corse à la fin du décompte des 45 secondes, redirection vers la page des top10 pour un calcul dynamique des scores en fonction du nombres de requins et méduses tués, drapeaux attrapés et vie restante.
 
-<img src="Mission_Corse/images/score-1.png" width="200" alt="calcul des scores du jeu mission:Corse">
+<img src="Mission_Corse/images/score-1.png" width="400" alt="calcul des scores du jeu mission:Corse">
 
 * ## Breizh-Plage :
 
@@ -67,5 +67,5 @@
 <img src="Breizh-Plage/images/ecran_jeu.png" width="900" alt="écran de jeu de breizh-plage">
 
 ### Ici pas de game over le jeu prend fin par le calcul des scores, l'intérèt étant cette fois ci un chrono et un gros nombre de goélands abattus pour un score important.
-<img src="Breizh-Plage/images/score.png" width="200" alt="calcul des scores du jeu breizh-plage">
+<img src="Breizh-Plage/images/score.png" width="400" alt="calcul des scores du jeu breizh-plage">
 
