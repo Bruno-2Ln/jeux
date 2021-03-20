@@ -19,13 +19,22 @@ while(true){
     }
 }
 
+/**
+ * Intro du jeu
+ */
 function intro(){
     let txt ="***************************************************\n";
-    txt += "***************Bienvenu sue Puissance 4************\n";
+    txt += "***************Bienvenu sur Puissance 4************\n";
     txt += "***************************************************\n";
     console.log(txt);
 }
 
+/**
+ * Fonction permettant de choisir le caractère qui s'affichera en guise de jeton
+ * pendant la partie.
+ * @param {Number} joueur 
+ * @returns 
+ */
 function choixCaractere(joueur){
     var txt = "Veuillez choisir le caractere que vous voulez pour joueur " + joueur + " : "
     return toolbox.saisieString(txt)
@@ -33,8 +42,9 @@ function choixCaractere(joueur){
 
 
 /**
- * Fonction permettant à un joueur de jouer une case
- * Retourne true si le joueur a gagné
+ * Fonction permettant à un joueur de jouer une case.
+ * Retourne true par la fonction verificationFinJeu() 
+ * (et les fonctions qui la composent) si le joueur a gagné
  * @param {Number} joueur 
  * @returns 
  */
@@ -51,12 +61,4 @@ function jouerCase(joueur){
     jeu.jouerCase(joueur,ligneVide,colonne);
     jeu.afficherPuissance4();
     return jeu.verificationFinJeu(joueur);
-}
-
-/**
- * Fonction permettant de saisir une colonne
- * @returns 
- */
-function saisirColonne(){
-    return parseInt(toolbox.saisieString("Quelle colonne ?"));
 }
