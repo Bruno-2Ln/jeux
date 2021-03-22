@@ -20,6 +20,18 @@ let toolbox = {
             tab.push(ligne);
         }
         return tab
-    }
+    },
+
+    /**
+     * Fonction permettant d'ajouter un tableau de classes à une balise
+     * @param {String} balise 
+     * @param {Array} arrayClass 
+     */
+    addClasses: function(balise, arrayClass){
+
+        for (let i = 0; i <= arrayClass.length; i++){
+            balise.classList.add(arrayClass[i])
+        }
+    },
 
 }

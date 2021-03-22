@@ -11,7 +11,7 @@ let jeu = {
     joueurEnCours : Number = 1,
     finJeu : Boolean = false,
 
-    initialisation : function(){ 
+    initialisation : function(){
         this.puissance4 = toolbox.initialiserTableauVide(this.nbLigne, this.nbColonne, 0);
     },
 
@@ -38,57 +38,52 @@ let jeu = {
     afficherPuissance4 : function(){
         const jeu = document.querySelector("#jeu");
         jeu.innerHTML = "";
-    
+
         let grille = document.createElement("table");
         let tourJoueurIndication = document.getElementById("tourJoueurIndication");
-    
+
         for (let i =0; i < this.nbLigne; i++){
             let ligne = document.createElement("tr")
             for (let j =0 ; j < this.nbColonne ; j++){
-    
+
                 let cellule = document.createElement("td")
                 let img = document.createElement("img");
 
-                cellule.classList.add("border")
-                cellule.classList.add("text-center")
-                cellule.classList.add("format-cellule")
-    
+                toolbox.addClasses(cellule, ["border","text-center","format-cellule"]);
+
                 if(this.puissance4[i][j]=== 0){
                     cellule.textContent = "";
                 } else if(this.puissance4[i][j]=== 1){
-                    
+
                     img.setAttribute("src", "./images/J1.png");
 
-                    img.classList.add("bg-danger");
-                    img.classList.add("rounded-circle");
+                    toolbox.addClasses(img, ["bg-danger","rounded-circle"]);
 
                 } else if(this.puissance4[i][j]=== 2){
 
                     img.setAttribute("src", "./images/J2.png");
 
-                    img.classList.add("bg-info");
-                    img.classList.add("rounded-circle");
-
+                    toolbox.addClasses(img, ["bg-info","rounded-circle"]);
                 }
 
                 cellule.appendChild(img);
                 ligne.appendChild(cellule);
             }
-    
+
             grille.appendChild(ligne);
         }
-    
+
         let ligneBouton = document.createElement("tr");
-    
+
         for (let i =1; i <= this.nbColonne; i++){
-            
+
             let celluleBouton = document.createElement("td");
             let btn = document.createElement("button");
-    
+
             btn.classList.add("btn");
             btn.classList.add("btn-secondary");
             btn.classList.add("bouton");
-    
+
             btn.textContent = "Colonne " + (i);
 
             if(!this.finJeu){
@@ -113,16 +108,16 @@ let jeu = {
                     }
                 })
             }
-            
+
             celluleBouton.appendChild(btn);
             ligneBouton.appendChild(celluleBouton);
             grille.appendChild(ligneBouton);
-        
+
         jeu.appendChild(grille)
     }
     },
 
-    jouerCase : function(joueur,ligne,colonne){ 
+    jouerCase : function(joueur,ligne,colonne){
         this.puissance4[ligne][colonne-1] = joueur;
     },
 
@@ -130,7 +125,7 @@ let jeu = {
      * Fonction permettant de retourner la première ligne vide d'une colonne.
      * Elle boucle sur la dernière ligne -1 et remonte pour trouver une case vide.
      * @param {Number} colonne retourne -1 si la colonne est pleine
-     * @returns 
+     * @returns
      */
     retournerLigneCaseVideColonne : function(colonne){
         for(let i =this.nbLigne-1; i>=0; i--){
@@ -148,9 +143,9 @@ let jeu = {
      * de la fonction afficherPuissance4() que les 1 et 2 sont remplacés par les caractères décidés en
      * début de partie et que le 0 est remplacé par "_".
      * Si 0 est trouvé alors la case est vide.
-     * @param {Number} ligne 
-     * @param {Number} colonne 
-     * @returns 
+     * @param {Number} ligne
+     * @param {Number} colonne
+     * @returns
      */
     verifCaseVide : function(ligne, colonne){
         return this.puissance4[ligne][colonne-1] === 0
@@ -161,7 +156,7 @@ let jeu = {
      * Nécessite le module readline-sync.
      * le fonction saisieString renvoyant une chaîne de caractères
      * on utilise parseInt()
-     * @returns 
+     * @returns
      */
     saisirColonne : function(){
         return parseInt(toolbox.saisieString("Quelle colonne ?"));
@@ -170,8 +165,8 @@ let jeu = {
     /**
      * Fonction permettant de vérifier si un joueur à gagner
      * en ligne ou en colonne ou en diagonale
-     * @param {Number} joueur 
-     * @returns 
+     * @param {Number} joueur
+     * @returns
      */
     verificationFinJeu : function(joueur){
         if(this.verificationLigneFinJeu(joueur) || this.verificationColonneFinJeu(joueur) ||this.verificationDiagonaleFinJeu(joueur)){
@@ -189,8 +184,8 @@ let jeu = {
      * est à -3 sur le nbrColonne car si après vérification de puissance4[i][3]
      * le joueur n'a pas gagné c'est que les 3 dernières cases ne permettent pas de
      * gagner. Il est donc inutile de les vérifier.
-     * @param {Number} joueur 
-     * @returns 
+     * @param {Number} joueur
+     * @returns
      */
     verificationLigneFinJeu : function(joueur){
         for(let i=this.nbLigne-1; i>=0; i--){
@@ -211,14 +206,14 @@ let jeu = {
     /**
      * Fonction permettant de vérifier si un joueur a gagné en colonne.
      * On boucle sur la première colonne et pour chaque tour on boucle
-     * une nouvelle fois sur la dernière ligne-4 et on remonte. On va 
+     * une nouvelle fois sur la dernière ligne-4 et on remonte. On va
      * donc partir de la 3ème ligne et vérifier si les 3 du dessous sont
      * égales pour retourner true et sortir de la boucle. Il est inutile
      * de vérifier plus les 3 dernières, c'est-à-dire les 3 cellules basses
      * de chaque colonne car vu qu'on descend dans la vérification on ne peut
      * trouver 4 cases identiques.
-     * @param {Number} joueur 
-     * @returns 
+     * @param {Number} joueur
+     * @returns
      */
     verificationColonneFinJeu : function(joueur){
         for(let i=0; i<this.nbColonne; i++){
@@ -243,8 +238,8 @@ let jeu = {
      * 3 tours puisque au-dessus il ne peut y avoir de retour gagnant.
      * On boucle une seconde fois à chacun des 3 tours sur les cellules/colonnes
      * des lignes pour vérifier les diagonales droite et gauche.
-     * @param {Number} joueur 
-     * @returns 
+     * @param {Number} joueur
+     * @returns
      */
     verificationDiagonaleFinJeu : function(joueur){
         for(let i=this.nbLigne-1; i>=3; i--){
