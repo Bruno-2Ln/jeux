@@ -1,23 +1,23 @@
-let toolbox = require("./toolbox.js");
-let jeu = require("./jeu.js");
+// let toolbox = require("./toolbox.js");
+// let jeu = require("./jeu.js");
 
 intro();
 
-jeu.joueur1car = choixCaractere(1);
-jeu.joueur2car = choixCaractere(2);
+// jeu.joueur1car = choixCaractere(1);
+// jeu.joueur2car = choixCaractere(2);
 jeu.initialisation();
 jeu.afficherPuissance4();
 
-while(true){
-    if(jouerCase(1)){
-        console.log("Joueur 1 a gagné");
-        break;
-    }
-    if(jouerCase(2)){
-        console.log("Joueur 2 a gagné");
-        break;
-    }
-}
+// while(true){
+//     if(jouerCase(1)){
+//         console.log("Joueur 1 a gagné");
+//         break;
+//     }
+//     if(jouerCase(2)){
+//         console.log("Joueur 2 a gagné");
+//         break;
+//     }
+// }
 
 /**
  * Intro du jeu
