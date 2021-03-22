@@ -7,13 +7,24 @@ let jeu = {
 
     joueurEnCours : Number = 1,
 
+    pointJ1 : Number = 0,
+    pointJ2 : Number = 0,
 
+
+    /**
+     * Fonction permettant d'initialiser la propriété puissance4 de l'objet
+     * en tableau de tableaux
+     */
     initialisation : function(){
-        console.log("init");
         this.puissance4 = toolbox.initialiserTableauVide(this.nbLigne, this.nbColonne, 0);
         
     },
 
+    /**
+     * Fonction permettant à la fin d'une partie d'afficher une alerte indiquant
+     * le gagnant et un bouton pour rejouer. Le score du joueur gagnant est
+     * incrémenté.
+     */
     gererFinJeu : function(){
         
         const alert = document.querySelector('.alert');
@@ -31,21 +42,38 @@ let jeu = {
         alertMessage.textContent = "Partie terminée, le gagnant est le joueur " + this.joueurEnCours;
         btnReplay.textContent = "Rejouer";
 
-        
         toolbox.addClasses(btnReplay, ["btn","btn-secondary"]);
         btnReplay.setAttribute("type", "button");
         
         alert.appendChild(alertMessage);
         alert.appendChild(btnReplay);
 
+        if(this.joueurEnCours === 1){
+            this.pointJ1++;
+        } else {
+            this.pointJ2++;
+        }
+
         btnReplay.addEventListener("click", function(){
         jeu.initialisationTableau();
         })
     },
 
+//todo : créer une fonction pour la création j1 et j2;
+
+    /**
+     * Fonction permettant d'initialiser l'ensemble de l'interface graphique,
+     * mais aussi sa réinitialisation suite à une partie terminée.
+     */
     initialisationTableau : function () {
+
         j1.innerHTML = "";
         j2.innerHTML = "";
+
+        this.joueurEnCours = 1;
+
+        let tourJoueurIndication = document.getElementById("tourJoueurIndication");
+        tourJoueurIndication.textContent = "Tour du Joueur 1";
 
         const alert = document.querySelector('.alert');
         alert.textContent = "";
@@ -63,8 +91,8 @@ let jeu = {
         j1.appendChild(imgJ1);
         j2.appendChild(imgJ2);
     
-        containerScoreJ1.textContent = scoreJ1;
-        containerScoreJ2.textContent = scoreJ2;
+        containerScoreJ1.textContent = this.pointJ1;
+        containerScoreJ2.textContent = this.pointJ2;
     
         toolbox.addClasses(imgJ1, ["bg-danger","rounded-circle"]);
         toolbox.addClasses(imgJ2, ["bg-info","rounded-circle"]);
@@ -84,9 +112,13 @@ let jeu = {
      * Une fois la fonction initialisation() appelée et le tableau de tableaux puissance4 créé
      * la première boucle va parcourir chaque tableau (ligne) de puissance 4,
      * la seconde boucle parcourt chaque cellule de la ligne du tour.
+     * Une grille est créée sous forme de tableau. Sous chaque colonne de cette grille
+     * est ajouté un bouton avec le nom de la colonne, au click un jeton du joueurEnCours
+     * apparait dans la case vide la plus basse, si la vérification de fin de partie est validée
+     * et donc s'il y a un gagnant, le jeu s'arrête.
      */
     afficherPuissance4 : function(){
-        console.log("affiche");
+
         const jeu = document.querySelector("#jeu");
         jeu.innerHTML = "";
 
@@ -130,10 +162,8 @@ let jeu = {
 
             let celluleBouton = document.createElement("td");
             let btn = document.createElement("button");
-//todo
-            btn.classList.add("btn");
-            btn.classList.add("btn-secondary");
-            btn.classList.add("bouton");
+
+            toolbox.addClasses(btn, ["btn","btn-secondary","bouton"]);
 
             btn.textContent = "Colonne " + (i);
 
@@ -165,6 +195,12 @@ let jeu = {
         }
     },
 
+    /**
+     * Fonction permettant de jouer un tour
+     * @param {Number} joueur 
+     * @param {Number} ligne 
+     * @param {Number} colonne 
+     */
     jouerCase : function(joueur,ligne,colonne){
         this.puissance4[ligne][colonne-1] = joueur;
     },
