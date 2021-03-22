@@ -1,4 +1,6 @@
 
+
+
 jeu.initialisation();
 jeu.afficherPuissance4();
 

@@ -8,10 +8,22 @@ let jeu = {
     joueur1car : "x",
     joueur2car : "o",
 
-    joueurEnCours : 1,
+    joueurEnCours : Number = 1,
+    finJeu : Boolean = false,
 
     initialisation : function(){ 
         this.puissance4 = toolbox.initialiserTableauVide(this.nbLigne, this.nbColonne, 0);
+    },
+
+    gererFinJeu : function(){
+
+        this.finJeu = !this.finJeu;
+
+        let buttons = document.getElementsByClassName("bouton")
+        for (let i = 0; i <= buttons.length; i++) {
+            buttons[i].setAttribute("disabled", "");
+        }
+
     },
 
     /**
@@ -24,7 +36,8 @@ let jeu = {
         const jeu = document.querySelector("#jeu");
         jeu.innerHTML = "";
     
-        let grille = document.createElement("table")
+        let grille = document.createElement("table");
+        let tourJoueurIndication = document.getElementById("tourJoueurIndication");
     
         for (let i =0; i < this.nbLigne; i++){
             let ligne = document.createElement("tr")
@@ -48,10 +61,10 @@ let jeu = {
 
                 } else if(this.puissance4[i][j]=== 2){
 
+                    img.setAttribute("src", "./images/J2.png");
+
                     img.classList.add("bg-info");
                     img.classList.add("rounded-circle");
-
-                    img.setAttribute("src", "./images/J2.png");
 
                 }
 
@@ -64,7 +77,7 @@ let jeu = {
     
         let ligneBouton = document.createElement("tr");
     
-        for (let i =0; i < this.nbColonne; i++){
+        for (let i =1; i <= this.nbColonne; i++){
             
             let celluleBouton = document.createElement("td");
             let btn = document.createElement("button");
@@ -73,34 +86,42 @@ let jeu = {
             btn.classList.add("btn-secondary");
             btn.classList.add("bouton");
     
-            btn.textContent = "Colonne " + (i+1);
+            btn.textContent = "Colonne " + (i);
 
-            btn.addEventListener("click", (e) => {
-                let ligneVide = this.retournerLigneCaseVideColonne((i+1));
-                this.jouerCase(this.joueurEnCours, ligneVide, (i+1))
-                this.afficherPuissance4();
+            if(!this.finJeu){
+                btn.addEventListener("click", (e) => {
+                console.log("testEntry: " + this.finJeu);
+                let ligneVide = this.retournerLigneCaseVideColonne((i));
+                    if (ligneVide !== -1) {
+                        this.jouerCase(this.joueurEnCours, ligneVide, (i))
+                        this.afficherPuissance4();
 
-                if(this.joueurEnCours === 1){
-                    this.joueurEnCours = 2;
-                } else {
-                    this.joueurEnCours = 1
-                }
+                        if(this.verificationFinJeu(this.joueurEnCours)){
+                            this.gererFinJeu();
+                        }
 
-                console.log((i+1));
-            })
+                        if(this.joueurEnCours === 1){
+                            this.joueurEnCours = 2;
+                            tourJoueurIndication.textContent = "Tour du Joueur 2";
+                        } else {
+                            this.joueurEnCours = 1;
+                            tourJoueurIndication.textContent = "Tour du Joueur 1";
+                        }
+                    }
+                })
+            }
             
             celluleBouton.appendChild(btn);
             ligneBouton.appendChild(celluleBouton);
             grille.appendChild(ligneBouton);
-        }
         
         jeu.appendChild(grille)
+    }
     },
 
     jouerCase : function(joueur,ligne,colonne){ 
         this.puissance4[ligne][colonne-1] = joueur;
     },
-
 
     /**
      * Fonction permettant de retourner la première ligne vide d'une colonne.
