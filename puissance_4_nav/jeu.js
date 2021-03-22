@@ -8,6 +8,8 @@ let jeu = {
     joueur1car : "x",
     joueur2car : "o",
 
+    joueurEnCours : 1,
+
     initialisation : function(){ 
         this.puissance4 = toolbox.initialiserTableauVide(this.nbLigne, this.nbColonne, 0);
     },
@@ -24,17 +26,36 @@ let jeu = {
     
         let grille = document.createElement("table")
     
-    
         for (let i =0; i < this.nbLigne; i++){
             let ligne = document.createElement("tr")
             for (let j =0 ; j < this.nbColonne ; j++){
     
                 let cellule = document.createElement("td")
-    
+                let img = document.createElement("img");
+
                 cellule.classList.add("border")
                 cellule.classList.add("text-center")
                 cellule.classList.add("format-cellule")
     
+                if(this.puissance4[i][j]=== 0){
+                    cellule.textContent = "";
+                } else if(this.puissance4[i][j]=== 1){
+                    
+                    img.setAttribute("src", "./images/J1.png");
+
+                    img.classList.add("bg-danger");
+                    img.classList.add("rounded-circle");
+
+                } else if(this.puissance4[i][j]=== 2){
+
+                    img.classList.add("bg-info");
+                    img.classList.add("rounded-circle");
+
+                    img.setAttribute("src", "./images/J2.png");
+
+                }
+
+                cellule.appendChild(img);
                 ligne.appendChild(cellule);
             }
     
@@ -50,31 +71,30 @@ let jeu = {
     
             btn.classList.add("btn");
             btn.classList.add("btn-secondary");
+            btn.classList.add("bouton");
     
             btn.textContent = "Colonne " + (i+1);
-    
+
+            btn.addEventListener("click", (e) => {
+                let ligneVide = this.retournerLigneCaseVideColonne((i+1));
+                this.jouerCase(this.joueurEnCours, ligneVide, (i+1))
+                this.afficherPuissance4();
+
+                if(this.joueurEnCours === 1){
+                    this.joueurEnCours = 2;
+                } else {
+                    this.joueurEnCours = 1
+                }
+
+                console.log((i+1));
+            })
+            
             celluleBouton.appendChild(btn);
             ligneBouton.appendChild(celluleBouton);
-            grille.appendChild(celluleBouton);
+            grille.appendChild(ligneBouton);
         }
         
         jeu.appendChild(grille)
-
-        // for(let i=0; i <this.puissance4.length; i++){
-        //     let ligne = "";
-        //     for(let j=0; j < this.puissance4[i].length; j++){
-        //         ligne += "| ";
-        //         if(this.puissance4[i][j] === 0){
-        //             ligne += "_";
-        //         } else if(this.puissance4[i][j] === 1){
-        //             ligne += this.joueur1car
-        //         } else if(this.puissance4[i][j] === 2){
-        //             ligne += this.joueur2car
-        //         }
-        //         ligne += " |";
-        //     }
-        //     console.log(ligne);
-        // }
     },
 
     jouerCase : function(joueur,ligne,colonne){ 
