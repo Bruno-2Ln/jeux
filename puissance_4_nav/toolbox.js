@@ -1,9 +1,4 @@
-// let readline = require("readline-sync");
-
 let toolbox = {
-    // saisieString: function(txt){
-    //     return readline.question(txt);
-    // },
 
     /**
      * Permet d'initialiser un tableau de tableaux en fonction d'un nombre de ligne et de colonne passé en paramètre.
@@ -28,4 +23,3 @@ let toolbox = {
     }
 
 }
-//module.exports = toolbox;

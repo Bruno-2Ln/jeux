@@ -1,4 +1,3 @@
-// let toolbox = require("./toolbox.js");
 
 let jeu = {
 
@@ -20,21 +19,62 @@ let jeu = {
      * la seconde boucle parcourt chaque cellule de la ligne du tour.
      */
     afficherPuissance4 : function(){
-        for(let i=0; i <this.puissance4.length; i++){
-            let ligne = "";
-            for(let j=0; j < this.puissance4[i].length; j++){
-                ligne += "| ";
-                if(this.puissance4[i][j] === 0){
-                    ligne += "_";
-                } else if(this.puissance4[i][j] === 1){
-                    ligne += this.joueur1car
-                } else if(this.puissance4[i][j] === 2){
-                    ligne += this.joueur2car
-                }
-                ligne += " |";
+        const jeu = document.querySelector("#jeu");
+        jeu.innerHTML = "";
+    
+        let grille = document.createElement("table")
+    
+    
+        for (let i =0; i < this.nbLigne; i++){
+            let ligne = document.createElement("tr")
+            for (let j =0 ; j < this.nbColonne ; j++){
+    
+                let cellule = document.createElement("td")
+    
+                cellule.classList.add("border")
+                cellule.classList.add("text-center")
+                cellule.classList.add("format-cellule")
+    
+                ligne.appendChild(cellule);
             }
-            console.log(ligne);
+    
+            grille.appendChild(ligne);
         }
+    
+        let ligneBouton = document.createElement("tr");
+    
+        for (let i =0; i < this.nbColonne; i++){
+            
+            let celluleBouton = document.createElement("td");
+            let btn = document.createElement("button");
+    
+            btn.classList.add("btn");
+            btn.classList.add("btn-secondary");
+    
+            btn.textContent = "Colonne " + (i+1);
+    
+            celluleBouton.appendChild(btn);
+            ligneBouton.appendChild(celluleBouton);
+            grille.appendChild(celluleBouton);
+        }
+        
+        jeu.appendChild(grille)
+
+        // for(let i=0; i <this.puissance4.length; i++){
+        //     let ligne = "";
+        //     for(let j=0; j < this.puissance4[i].length; j++){
+        //         ligne += "| ";
+        //         if(this.puissance4[i][j] === 0){
+        //             ligne += "_";
+        //         } else if(this.puissance4[i][j] === 1){
+        //             ligne += this.joueur1car
+        //         } else if(this.puissance4[i][j] === 2){
+        //             ligne += this.joueur2car
+        //         }
+        //         ligne += " |";
+        //     }
+        //     console.log(ligne);
+        // }
     },
 
     jouerCase : function(joueur,ligne,colonne){ 
@@ -187,4 +227,3 @@ let jeu = {
 
 
 }
-// module.exports = jeu;
