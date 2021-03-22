@@ -5,28 +5,78 @@ let jeu = {
     nbColonne : Number = 7,
     nbLigne : Number = 6,
 
-    joueur1car : "x",
-    joueur2car : "o",
-
     joueurEnCours : Number = 1,
-    finJeu : Boolean = false,
+
 
     initialisation : function(){
+        console.log("init");
         this.puissance4 = toolbox.initialiserTableauVide(this.nbLigne, this.nbColonne, 0);
+        
     },
 
     gererFinJeu : function(){
-
-        this.finJeu = !this.finJeu;
+        
         const alert = document.querySelector('.alert');
-        alert.classList.remove("d-none");
-        alert.textContent = "Fin de partie";
+
+        alert.classList.toggle("d-none");
 
         let buttons = document.getElementsByClassName("bouton")
         for (let i = 0; i < buttons.length; i++) {
             buttons[i].setAttribute("disabled", "");
         }
 
+        let alertMessage = document.createElement("p");
+        let btnReplay = document.createElement("button");
+        
+        alertMessage.textContent = "Partie terminée, le gagnant est le joueur " + this.joueurEnCours;
+        btnReplay.textContent = "Rejouer";
+
+        
+        toolbox.addClasses(btnReplay, ["btn","btn-secondary"]);
+        btnReplay.setAttribute("type", "button");
+        
+        alert.appendChild(alertMessage);
+        alert.appendChild(btnReplay);
+
+        btnReplay.addEventListener("click", function(){
+        jeu.initialisationTableau();
+        })
+    },
+
+    initialisationTableau : function () {
+        j1.innerHTML = "";
+        j2.innerHTML = "";
+
+        const alert = document.querySelector('.alert');
+        alert.textContent = "";
+
+        alert.classList.toggle("d-none");
+
+        let imgJ1 = document.createElement("img");
+        let imgJ2 = document.createElement("img");
+        let containerScoreJ1 = document.createElement("p");
+        let containerScoreJ2 = document.createElement("p");
+    
+        imgJ1.src = "./images/J1.png";
+        imgJ2.src = "./images/J2.png";
+    
+        j1.appendChild(imgJ1);
+        j2.appendChild(imgJ2);
+    
+        containerScoreJ1.textContent = scoreJ1;
+        containerScoreJ2.textContent = scoreJ2;
+    
+        toolbox.addClasses(imgJ1, ["bg-danger","rounded-circle"]);
+        toolbox.addClasses(imgJ2, ["bg-info","rounded-circle"]);
+    
+        toolbox.addClasses(j1, ["text-center","align-self-center"]);
+        toolbox.addClasses(j2, ["text-center","align-self-center"]);
+    
+        j1.appendChild(containerScoreJ1);
+        j2.appendChild(containerScoreJ2);
+    
+        this.initialisation();
+        this.afficherPuissance4();
     },
 
     /**
@@ -36,6 +86,7 @@ let jeu = {
      * la seconde boucle parcourt chaque cellule de la ligne du tour.
      */
     afficherPuissance4 : function(){
+        console.log("affiche");
         const jeu = document.querySelector("#jeu");
         jeu.innerHTML = "";
 
@@ -79,42 +130,39 @@ let jeu = {
 
             let celluleBouton = document.createElement("td");
             let btn = document.createElement("button");
-
+//todo
             btn.classList.add("btn");
             btn.classList.add("btn-secondary");
             btn.classList.add("bouton");
 
             btn.textContent = "Colonne " + (i);
 
-            if(!this.finJeu){
-                btn.addEventListener("click", (e) => {
-                console.log("testEntry: " + this.finJeu);
-                let ligneVide = this.retournerLigneCaseVideColonne((i));
-                    if (ligneVide !== -1) {
-                        this.jouerCase(this.joueurEnCours, ligneVide, (i))
-                        this.afficherPuissance4();
+            btn.addEventListener("click", (e) => {
+            let ligneVide = this.retournerLigneCaseVideColonne((i));
+                if (ligneVide !== -1) {
+                    this.jouerCase(this.joueurEnCours, ligneVide, (i))
+                    this.afficherPuissance4();
 
-                        if(this.verificationFinJeu(this.joueurEnCours)){
-                            this.gererFinJeu();
-                        }
-
-                        if(this.joueurEnCours === 1){
-                            this.joueurEnCours = 2;
-                            tourJoueurIndication.textContent = "Tour du Joueur 2";
-                        } else {
-                            this.joueurEnCours = 1;
-                            tourJoueurIndication.textContent = "Tour du Joueur 1";
-                        }
+                    if(this.verificationFinJeu(this.joueurEnCours)){
+                        this.gererFinJeu();
                     }
-                })
-            }
 
+                    if(this.joueurEnCours === 1){
+                        this.joueurEnCours = 2;
+                        tourJoueurIndication.textContent = "Tour du Joueur 2";
+                    } else {
+                        this.joueurEnCours = 1;
+                        tourJoueurIndication.textContent = "Tour du Joueur 1";
+                    }
+                }
+            })
+            
             celluleBouton.appendChild(btn);
             ligneBouton.appendChild(celluleBouton);
             grille.appendChild(ligneBouton);
 
-        jeu.appendChild(grille)
-    }
+            jeu.appendChild(grille)
+        }
     },
 
     jouerCase : function(joueur,ligne,colonne){
@@ -149,17 +197,6 @@ let jeu = {
      */
     verifCaseVide : function(ligne, colonne){
         return this.puissance4[ligne][colonne-1] === 0
-    },
-
-    /**
-     * Fonction permettant de saisir une colonne.
-     * Nécessite le module readline-sync.
-     * le fonction saisieString renvoyant une chaîne de caractères
-     * on utilise parseInt()
-     * @returns
-     */
-    saisirColonne : function(){
-        return parseInt(toolbox.saisieString("Quelle colonne ?"));
     },
 
     /**
