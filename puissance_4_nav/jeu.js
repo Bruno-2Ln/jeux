@@ -120,7 +120,10 @@ let jeu = {
     },
 
     jouerCase : function(joueur,ligne,colonne){ 
+        const alert = document.querySelector('.alert');
         this.puissance4[ligne][colonne-1] = joueur;
+        alert.classList.remove("d-none")
+        alert.textContent = "Fin de partie"
     },
 
     /**
