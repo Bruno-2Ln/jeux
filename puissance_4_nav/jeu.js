@@ -159,14 +159,14 @@ let jeu = {
 
         let ligneBouton = document.createElement("tr");
 
-        for (let i =1; i <= this.nbColonne; i++){
+        for (let i =0; i < this.nbColonne; i++){
 
             let celluleBouton = document.createElement("td");
             let btn = document.createElement("button");
 
             toolbox.addClasses(btn, ["btn","btn-secondary","bouton"]);
 
-            btn.textContent = "Colonne " + i;
+            btn.textContent = "Colonne " + (i+1);
 
             //Todo : Redondance du code ligne 174 à 209.
             btn.addEventListener("click", () => {
@@ -223,7 +223,7 @@ let jeu = {
      * @param {Number} colonne 
      */
     jouerCase : function(joueur,ligne,colonne){
-        this.puissance4[ligne][colonne-1] = joueur;
+        this.puissance4[ligne][colonne] = joueur;
     },
 
     /**
@@ -253,7 +253,7 @@ let jeu = {
      * @returns
      */
     verifCaseVide : function(ligne, colonne){
-        return this.puissance4[ligne][colonne-1] === 0
+        return this.puissance4[ligne][colonne] === 0
     },
 
     /**
