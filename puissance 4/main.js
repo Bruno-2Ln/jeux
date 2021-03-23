@@ -62,3 +62,4 @@ function jouerCase(joueur){
     jeu.afficherPuissance4();
     return jeu.verificationFinJeu(joueur);
 }
+

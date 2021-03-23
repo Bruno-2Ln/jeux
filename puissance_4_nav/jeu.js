@@ -10,6 +10,7 @@ let jeu = {
     pointJ1 : Number = 0,
     pointJ2 : Number = 0,
 
+    isIAOn : Boolean = false,
 
     /**
      * Fonction permettant d'initialiser la propriété puissance4 de l'objet
@@ -165,12 +166,14 @@ let jeu = {
 
             toolbox.addClasses(btn, ["btn","btn-secondary","bouton"]);
 
-            btn.textContent = "Colonne " + (i);
+            btn.textContent = "Colonne " + i;
 
-            btn.addEventListener("click", (e) => {
-            let ligneVide = this.retournerLigneCaseVideColonne((i));
+            //Todo : Redondance du code ligne 174 à 209.
+            btn.addEventListener("click", () => {
+
+            let ligneVide = this.retournerLigneCaseVideColonne(i);
                 if (ligneVide !== -1) {
-                    this.jouerCase(this.joueurEnCours, ligneVide, (i))
+                    this.jouerCase(this.joueurEnCours, ligneVide, i)
                     this.afficherPuissance4();
 
                     if(this.verificationFinJeu(this.joueurEnCours)){
@@ -184,7 +187,25 @@ let jeu = {
                         this.joueurEnCours = 1;
                         tourJoueurIndication.textContent = "Tour du Joueur 1";
                     }
-                }
+                } if (this.isIAOn){
+                    colonneIA = 1;
+                    ligneVide = this.retournerLigneCaseVideColonne(colonneIA);
+                        if (ligneVide !== -1) {
+                            this.jouerCase(this.joueurEnCours, ligneVide, colonneIA)
+                            this.afficherPuissance4();
+
+                            if(this.verificationFinJeu(this.joueurEnCours)){
+                                this.gererFinJeu();
+                            }
+                            if(this.joueurEnCours === 1){
+                                this.joueurEnCours = 2;
+                                tourJoueurIndication.textContent = "Tour du Joueur 2";
+                            } else {
+                                this.joueurEnCours = 1;
+                                tourJoueurIndication.textContent = "Tour du Joueur 1";
+                            }
+                        }
+                    }
             })
             
             celluleBouton.appendChild(btn);
