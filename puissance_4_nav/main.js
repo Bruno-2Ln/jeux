@@ -1,7 +1,7 @@
 let j1 = document.getElementById("j1");
 let j2 = document.getElementById("j2");
 
-let IA = document.getElementById("IA");
+let btnIA = document.getElementById("IA");
 
 let scoreJ1 = 0;
 let scoreJ2 = 0;
@@ -10,7 +10,6 @@ let scoreJ2 = 0;
 
 jeu.initialisationTableau();
 
-IA.addEventListener("change", ()=> {
+btnIA.addEventListener("change", ()=> {
     jeu.isIAOn = !jeu.isIAOn;
-    console.log("coucou");
 })

@@ -188,7 +188,7 @@ let jeu = {
                         tourJoueurIndication.textContent = "Tour du Joueur 1";
                     }
                 } if (this.isIAOn){
-                    colonneIA = 1;
+                    colonneIA = IA.choixColonne();
                     ligneVide = this.retournerLigneCaseVideColonne(colonneIA);
                         if (ligneVide !== -1) {
                             this.jouerCase(this.joueurEnCours, ligneVide, colonneIA)
