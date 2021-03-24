@@ -78,8 +78,21 @@ let IA = {
     },
 
     verifGagnerColonne : function(ligne, colonne, joueur){
-
+        let cpt = 1;
+        if (ligne < 3){
+            if(jeu.puissance4[ligne+1][colonne] === joueur){
+                cpt++;
+                if(jeu.puissance4[ligne+2][colonne] === joueur){
+                    cpt++;
+                    if(jeu.puissance4[ligne+3][colonne] === joueur){
+                        cpt++;
+                    }
+                }
+            }
+        }
+        if(cpt>3) return true;
     },
+    
     verifGagnerDiagonale : function(ligne, colonne, joueur){
 
     },
