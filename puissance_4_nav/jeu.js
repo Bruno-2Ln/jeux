@@ -191,18 +191,24 @@ let jeu = {
                     colonneIA = IA.choixColonne();
                     ligneVide = this.retournerLigneCaseVideColonne(colonneIA);
                         if (ligneVide !== -1) {
+                            console.log("1")
+                            console.log(this.joueurEnCours);
                             this.jouerCase(this.joueurEnCours, ligneVide, colonneIA)
                             this.afficherPuissance4();
-
+                            console.log("2")
+                            console.log(this.joueurEnCours);
                             if(this.verificationFinJeu(this.joueurEnCours)){
                                 this.gererFinJeu();
+                                console.log("3")
                             }
                             if(this.joueurEnCours === 1){
                                 this.joueurEnCours = 2;
                                 tourJoueurIndication.textContent = "Tour du Joueur 2";
+                                console.log("4")
                             } else {
                                 this.joueurEnCours = 1;
                                 tourJoueurIndication.textContent = "Tour du Joueur 1";
+                                console.log("5")
                             }
                         }
                     }
