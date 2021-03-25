@@ -43,11 +43,14 @@ let IA = {
         if(ligne === -1) return 0;
 
         if(this.verifGagner(ligne, colonne,2)) return 100;
+        if(this.verifGagner(ligne, colonne,1)) return 99;
 
         return 1;
     },
 
     verifGagner : function(ligne, colonne, joueur){
+        console.log("ligne" + ligne);
+        console.log("colonne" + colonne);
         if(this.verifGagnerLigne(ligne,colonne,joueur)) return true;
         if(this.verifGagnerColonne(ligne,colonne,joueur)) return true;
         if(this.verifGagnerDiagonale(ligne,colonne,joueur)) return true;
@@ -97,19 +100,27 @@ let IA = {
         let cpt = 1;
         if(ligne-1 >= 0 && colonne+1 <= jeu.nbColonne && jeu.puissance4[ligne-1][colonne+1] === joueur){
             cpt++;
+            console.log("****verif 1");
             if(ligne-2 >= 0 && colonne+2 <= jeu.nbColonne && jeu.puissance4[ligne-2][colonne+2] === joueur){
                 cpt++;
+                console.log("****verif 2");
                 if(ligne-3 >= 0 && colonne+3 <= jeu.nbColonne && jeu.puissance4[ligne-3][colonne+3] === joueur){
                     cpt++;
+                    console.log("****verif 3");
+                    console.log("diagonale1");
                 }
             }
         }
-        if(ligne+1 < jeu.nbLigne && colonne-1 <= 0 && jeu.puissance4[ligne+1][colonne-1] === joueur){
+        if(ligne+1 < jeu.nbLigne && colonne-1 >= 0 && jeu.puissance4[ligne+1][colonne-1] === joueur){
             cpt++;
-            if(ligne+2 < jeu.nbLigne && colonne-2 <= 0 && jeu.puissance4[ligne+2][colonne-2] === joueur){
+            console.log("****verif 4");
+            if(ligne+2 < jeu.nbLigne && colonne-2 >= 0 && jeu.puissance4[ligne+2][colonne-2] === joueur){
                 cpt++;
-                if(ligne+3 < jeu.nbLigne && colonne-3 <= 0 && jeu.puissance4[ligne+3][colonne-3] === joueur){
+                console.log("****verif 5");
+                if(ligne+3 < jeu.nbLigne && colonne-3 >= 0 && jeu.puissance4[ligne+3][colonne-3] === joueur){
                     cpt++;
+                    console.log("****verif 6");
+                    console.log("diagonale2");
                 }
             }
         }
@@ -117,19 +128,27 @@ let IA = {
         cpt = 1;
         if(ligne-1 >= 0 && colonne-1 >= 0 && jeu.puissance4[ligne-1][colonne-1] === joueur){
             cpt++;
+            console.log("****verif 7");
             if(ligne-2 >= 0 && colonne-2 >= 0 && jeu.puissance4[ligne-2][colonne-2] === joueur){
                 cpt++;
+                console.log("****verif 8");
                 if(ligne-3 >= 0 && colonne-3 >= 0 && jeu.puissance4[ligne-3][colonne-3] === joueur){
                     cpt++;
+                    console.log("****verif 9");
+                    console.log("diagonale3");
                 }
             }
         }
         if(ligne+1 < jeu.nbLigne && colonne+1 <= jeu.nbColonne && jeu.puissance4[ligne+1][colonne+1] === joueur){
             cpt++;
+            console.log("****verif 10");
             if(ligne+2 < jeu.nbLigne && colonne+2 <= jeu.nbColonne && jeu.puissance4[ligne+2][colonne+2] === joueur){
                 cpt++;
+                console.log("****verif 11");
                 if(ligne+3 < jeu.nbLigne && colonne+3 <= jeu.nbColonne && jeu.puissance4[ligne+3][colonne+3] === joueur){
                     cpt++;
+                    console.log("****verif 12");
+                    console.log("diagonale4");
                 }
             }
         }
