@@ -45,6 +45,8 @@ let IA = {
         if(this.verifGagner(ligne, colonne,2)) return 100;
         if(this.verifGagner(ligne, colonne,1)) return 99;
 
+        if(this.coupPerdant(ligne, colonne,2)) return 0;
+
         let poids = 0;
 
         if(this.positionAttaqueDefense(ligne,colonne,1)){
@@ -197,6 +199,12 @@ let IA = {
             }
         }
         if(cpt>3) return true;
+    },
+
+    coupPerdant : function(ligne, colonne, joueur){
+        if(ligne-1 > 0){
+            if(this.verifGagner(ligne-1,colonne,1)) return true;
+        }
     }
 
 }
