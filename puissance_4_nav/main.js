@@ -6,8 +6,6 @@ let btnIA = document.getElementById("IA");
 let scoreJ1 = 0;
 let scoreJ2 = 0;
 
-//let isIAOn = false;
-
 jeu.initialisationTableau();
 
 btnIA.addEventListener("change", ()=> {

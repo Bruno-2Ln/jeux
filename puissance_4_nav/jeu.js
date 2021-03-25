@@ -42,7 +42,6 @@ let jeu = {
         
         alertMessage.textContent = "Partie terminée, le gagnant est le joueur " + this.joueurEnCours;
         btnReplay.textContent = "Rejouer";
-        console.log("bug");
         toolbox.addClasses(btnReplay, ["btn","btn-secondary"]);
         btnReplay.setAttribute("type", "button");
         
