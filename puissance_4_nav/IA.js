@@ -45,7 +45,19 @@ let IA = {
         if(this.verifGagner(ligne, colonne,2)) return 100;
         if(this.verifGagner(ligne, colonne,1)) return 99;
 
-        return this.getPoidsBase(ligne, colonne);
+        let poids = 0;
+
+        if(this.positionAttaqueDefense(ligne,colonne,1)){
+            poids +=20;
+        }
+        if(this.positionAttaqueDefense(ligne,colonne,2)){
+            poids +=20;
+        }
+
+        
+        poids += this.getPoidsBase(ligne,colonne);
+
+        return poids;
     },
 
     getPoidsBase : function(ligne, colonne, joueur){
@@ -83,6 +95,19 @@ let IA = {
             break;
         }
         return poidsColonne * poidsLigne;
+    },
+
+    positionAttaqueDefense : function(ligne, colonne, joueur){
+        let cpt = 1;
+        if(jeu.puissance4[ligne][colonne+1] === joueur) {
+            cpt++;
+            if(jeu.puissance4[ligne][colonne+2] === joueur && jeu.puissance4[ligne][colonne+3] === 0) cpt++;
+        }
+        if(jeu.puissance4[ligne][colonne-1] === joueur) {
+            cpt++;
+            if(jeu.puissance4[ligne][colonne-2] === joueur && jeu.puissance4[ligne][colonne-3] === 0) cpt++;
+        }
+        if(cpt > 2) return true;
     },
 
     verifGagner : function(ligne, colonne, joueur){
