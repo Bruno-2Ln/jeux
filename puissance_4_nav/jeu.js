@@ -12,6 +12,8 @@ let jeu = {
 
     isIAOn : Boolean = false,
 
+    nbrCellulesVides : Number = 0,
+
     /**
      * Fonction permettant d'initialiser la propriété puissance4 de l'objet
      * en tableau de tableaux
@@ -31,7 +33,7 @@ let jeu = {
         // const alert = document.querySelector('.alert');
 
         let tourJoueurIndication = document.getElementById("tourJoueurIndication");
-
+        let btnIA = document.getElementById("IA")
 
         // alert.classList.toggle("d-none");
 
@@ -58,6 +60,7 @@ let jeu = {
         }
 
         btnReplay.addEventListener("click", function(){
+            btnIA.removeAttribute("disabled")
         jeu.initialisationTableau();
         })
     },
@@ -77,11 +80,6 @@ let jeu = {
 
         let tourJoueurIndication = document.getElementById("tourJoueurIndication");
         tourJoueurIndication.textContent = "Tour du Joueur 1";
-
-        // const alert = document.querySelector('.alert');
-        // alert.textContent = "";
-
-        // alert.classList.toggle("d-none");
 
         let imgJ1 = document.createElement("img");
         let imgJ2 = document.createElement("img");
@@ -111,7 +109,6 @@ let jeu = {
         this.isIAOn = !this.isIAOn;
         })
 
-    
         this.initialisation();
         this.afficherPuissance4();
     },
@@ -130,6 +127,7 @@ let jeu = {
 
         const jeu = document.querySelector("#jeu");
         jeu.innerHTML = "";
+        this.nbrCellulesVides = 0;
 
         let grille = document.createElement("table");
         
@@ -146,6 +144,7 @@ let jeu = {
 
                 if(this.puissance4[i][j]=== 0){
                     cellule.textContent = "";
+                    this.nbrCellulesVides++
                 } else if(this.puissance4[i][j]=== 1){
 
                     img.setAttribute("src", "./images/J1.png");
@@ -164,8 +163,13 @@ let jeu = {
             }
 
             grille.appendChild(ligne);
+            
         }
-
+        let btnIA = document.getElementById('IA');
+        if (this.nbrCellulesVides !== 42){
+            btnIA.setAttribute("disabled", "")
+            console.log(this.nbrCellulesVides);
+        }
         let ligneBouton = document.createElement("tr");
 
         for (let i =0; i < this.nbColonne; i++){
@@ -303,7 +307,6 @@ let jeu = {
                     this.puissance4[i][j+1] === joueur &&
                     this.puissance4[i][j+2] === joueur &&
                     this.puissance4[i][j+3] === joueur){
-
                     return true;
                 }
             }
