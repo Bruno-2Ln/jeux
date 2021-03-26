@@ -28,25 +28,28 @@ let jeu = {
      */
     gererFinJeu : function(){
         
-        const alert = document.querySelector('.alert');
+        // const alert = document.querySelector('.alert');
 
-        alert.classList.toggle("d-none");
+        let tourJoueurIndication = document.getElementById("tourJoueurIndication");
+
+
+        // alert.classList.toggle("d-none");
 
         let buttons = document.getElementsByClassName("bouton")
         for (let i = 0; i < buttons.length; i++) {
             buttons[i].setAttribute("disabled", "");
         }
 
-        let alertMessage = document.createElement("p");
+        // let alertMessage = document.createElement("p");
         let btnReplay = document.createElement("button");
         
-        alertMessage.textContent = "Partie terminée, le gagnant est le joueur " + this.joueurEnCours;
+        tourJoueurIndication.textContent = "Partie terminée, le gagnant est le joueur " + this.joueurEnCours;
         btnReplay.textContent = "Rejouer";
-        toolbox.addClasses(btnReplay, ["btn","btn-secondary"]);
+        toolbox.addClasses(btnReplay, ["btn","btn-secondary","m-4"]);
         btnReplay.setAttribute("type", "button");
         
-        alert.appendChild(alertMessage);
-        alert.appendChild(btnReplay);
+        // tourJoueurIndication.appendChild(alertMessage);
+        tourJoueurIndication.appendChild(btnReplay);
 
         if(this.joueurEnCours === 1){
             this.pointJ1++;
@@ -75,10 +78,10 @@ let jeu = {
         let tourJoueurIndication = document.getElementById("tourJoueurIndication");
         tourJoueurIndication.textContent = "Tour du Joueur 1";
 
-        const alert = document.querySelector('.alert');
-        alert.textContent = "";
+        // const alert = document.querySelector('.alert');
+        // alert.textContent = "";
 
-        alert.classList.toggle("d-none");
+        // alert.classList.toggle("d-none");
 
         let imgJ1 = document.createElement("img");
         let imgJ2 = document.createElement("img");
@@ -102,6 +105,12 @@ let jeu = {
     
         j1.appendChild(containerScoreJ1);
         j2.appendChild(containerScoreJ2);
+
+        let btnIA = document.getElementById("IA");
+        btnIA.addEventListener("change", ()=> {
+        this.isIAOn = !this.isIAOn;
+        })
+
     
         this.initialisation();
         this.afficherPuissance4();
@@ -123,6 +132,7 @@ let jeu = {
         jeu.innerHTML = "";
 
         let grille = document.createElement("table");
+        
         let tourJoueurIndication = document.getElementById("tourJoueurIndication");
 
         for (let i =0; i < this.nbLigne; i++){
@@ -131,8 +141,8 @@ let jeu = {
 
                 let cellule = document.createElement("td")
                 let img = document.createElement("img");
-
-                toolbox.addClasses(cellule, ["border","text-center","format-cellule"]);
+                
+                toolbox.addClasses(cellule, ["bg-dark","border","text-center","format-cellule"]);
 
                 if(this.puissance4[i][j]=== 0){
                     cellule.textContent = "";
@@ -163,6 +173,7 @@ let jeu = {
             let celluleBouton = document.createElement("td");
             let btn = document.createElement("button");
 
+            toolbox.addClasses(celluleBouton, ["pt-1"]);
             toolbox.addClasses(btn, ["btn","btn-secondary","bouton"]);
 
             btn.textContent = "Colonne " + (i+1);

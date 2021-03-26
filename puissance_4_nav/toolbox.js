@@ -29,7 +29,7 @@ let toolbox = {
      */
     addClasses: function(balise, arrayClass){
 
-        for (let i = 0; i <= arrayClass.length; i++){
+        for (let i = 0; i < arrayClass.length; i++){
             balise.classList.add(arrayClass[i])
         }
     },
