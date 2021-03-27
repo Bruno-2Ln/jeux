@@ -45,7 +45,7 @@ let jeu = {
 
         tourJoueurIndication.textContent = "Partie terminée, le gagnant est le joueur " + this.joueurEnCours;
         btnReplay.textContent = "Rejouer";
-        toolbox.addClasses(btnReplay, ["btn","btn-secondary", "my-auto", "btn-replay"]);
+        toolbox.addClasses(btnReplay, ["btn","btn-secondary", "my-auto", "btn-replay", "m-4"]);
         btnReplay.setAttribute("type", "button");
         
         divHeader.appendChild(btnReplay);
@@ -201,6 +201,8 @@ let jeu = {
 
                 let cellule = document.createElement("td")
                 let img = document.createElement("img");
+
+                // toolbox.addClasses(grille, ["w-25"]);
                 
                 toolbox.addClasses(cellule, ["bg-dark","border","text-center","format-cellule"]);
 
