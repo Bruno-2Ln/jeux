@@ -65,7 +65,7 @@ let IA = {
         if(this.verifGagner(ligne, colonne,2)) return 100;
         if(this.verifGagner(ligne, colonne,1)) return 99;
 
-        if(this.coupPerdant(ligne, colonne)) return 0;
+        if(this.coupPerdant(ligne, colonne)) return 0.1;
 
         let poids = 0;
 

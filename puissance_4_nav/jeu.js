@@ -24,6 +24,33 @@ let jeu = {
         
     },
 
+    matchNul : function(){
+
+        let tourJoueurIndication = document.getElementById("tourJoueurIndication");
+        let divHeader = document.getElementById("divHeader");
+
+        let buttons = document.getElementsByClassName("bouton")
+        for (let i = 0; i < buttons.length; i++) {
+            buttons[i].setAttribute("disabled", "");
+        }
+
+        let btnReplay = document.createElement("button");
+        
+        let btnIA = document.getElementById("IA");
+
+        tourJoueurIndication.textContent = "Match nul !!"
+        btnReplay.textContent = "Rejouer";
+        toolbox.addClasses(btnReplay, ["btn","btn-secondary", "my-auto", "btn-replay", "m-4"]);
+        btnReplay.setAttribute("type", "button");
+        
+        divHeader.appendChild(btnReplay);
+
+        btnReplay.addEventListener("click", function(){
+            btnIA.removeAttribute("disabled");
+            jeu.initialisationTableau();
+        })
+    },
+
     /**
      * Fonction permettant à la fin d'une partie d'afficher une alerte indiquant
      * le gagnant et un bouton pour rejouer. Le score du joueur gagnant est
@@ -202,8 +229,6 @@ let jeu = {
                 let cellule = document.createElement("td")
                 let img = document.createElement("img");
 
-                // toolbox.addClasses(grille, ["w-25"]);
-                
                 toolbox.addClasses(cellule, ["bg-dark","border","text-center","format-cellule"]);
 
                 if(this.puissance4[i][j]=== 0){
@@ -234,6 +259,7 @@ let jeu = {
             btnIA.setAttribute("disabled", "")
             console.log(this.nbrCellulesVides);
         }
+
         let ligneBouton = document.createElement("tr");
 
         for (let i =0; i < this.nbColonne; i++){
@@ -258,6 +284,10 @@ let jeu = {
                         return this.gererFinJeu();
                     }
 
+                    if(!this.verificationFinJeu(1) && !this.verificationFinJeu(2) && this.nbrCellulesVides === 0){
+                        return this.matchNul();
+                    }
+
                     if(this.joueurEnCours === 1){
                         this.joueurEnCours = 2;
                         tourJoueurIndication.textContent = "Tour du Joueur 2";
@@ -278,6 +308,11 @@ let jeu = {
                             if(this.verificationFinJeu(this.joueurEnCours)){
                                 return this.gererFinJeu();
                             }
+
+                            if(!this.verificationFinJeu(1) && !this.verificationFinJeu(2) && this.nbrCellulesVides === 0){
+                                return this.matchNul();
+                            }
+                            
                             if(this.joueurEnCours === 1){
                                 this.joueurEnCours = 2;
                                 tourJoueurIndication.textContent = "Tour du Joueur 2";
