@@ -14,6 +14,7 @@ let jeu = {
 
     nbrCellulesVides : Number = 0,
 
+
     /**
      * Fonction permettant d'initialiser la propriété puissance4 de l'objet
      * en tableau de tableaux
@@ -29,22 +30,18 @@ let jeu = {
      * incrémenté.
      */
     gererFinJeu : function(){
-        
-        // const alert = document.querySelector('.alert');
 
         let tourJoueurIndication = document.getElementById("tourJoueurIndication");
-        let btnIA = document.getElementById("IA")
-
-        // alert.classList.toggle("d-none");
 
         let buttons = document.getElementsByClassName("bouton")
         for (let i = 0; i < buttons.length; i++) {
             buttons[i].setAttribute("disabled", "");
         }
 
-        // let alertMessage = document.createElement("p");
         let btnReplay = document.createElement("button");
         
+        let btnIA = document.getElementById("IA");
+
         tourJoueurIndication.textContent = "Partie terminée, le gagnant est le joueur " + this.joueurEnCours;
         btnReplay.textContent = "Rejouer";
         toolbox.addClasses(btnReplay, ["btn","btn-secondary","m-4"]);
@@ -60,12 +57,10 @@ let jeu = {
         }
 
         btnReplay.addEventListener("click", function(){
-            btnIA.removeAttribute("disabled")
-        jeu.initialisationTableau();
+            btnIA.removeAttribute("disabled");
+            jeu.initialisationTableau();
         })
     },
-
-//todo : créer une fonction pour la création j1 et j2;
 
     /**
      * Fonction permettant d'initialiser l'ensemble de l'interface graphique,
@@ -73,13 +68,67 @@ let jeu = {
      */
     initialisationTableau : function () {
 
-        j1.innerHTML = "";
-        j2.innerHTML = "";
-
         this.joueurEnCours = 1;
 
-        let tourJoueurIndication = document.getElementById("tourJoueurIndication");
-        tourJoueurIndication.textContent = "Tour du Joueur 1";
+        let sousContainer = document.getElementById("sous-container");
+        sousContainer.textContent = "";
+
+        this.creationPlateau();
+
+        this.initialisation();
+        this.afficherPuissance4();
+        this.isBtnActivateIA();
+    },
+
+    isBtnActivateIA : function() {
+        let btnIA = document.getElementById("IA");
+        btnIA.addEventListener("change", ()=> {
+        this.isIAOn = !this.isIAOn;
+        console.log(this.isIAOn);
+        console.log("test");
+        })
+    },
+
+    /**
+     * Fonction permettant de créer toute l'interface de jeu
+     */
+    creationPlateau : function() {
+
+        let sousContainer = document.getElementById("sous-container");
+
+        let h2 = document.createElement("h2");
+
+        let divIA = document.createElement("div");
+        let input = document.createElement("input");
+        let label = document.createElement("label");
+
+        let divPlateau = document.createElement("div");
+        let divJ1 = document.createElement("div");
+        divJ1.id = "divJ1"
+        let divGrille = document.createElement("div");
+        let divJ2 = document.createElement("div");
+        divJ2.id = "divJ2"
+        toolbox.addClasses(h2, ["bg-primary","text-white","rounded-lg","p-3", "text-center", "justify-content-center", "mt-1", "mb-0"]);
+        h2.id = "tourJoueurIndication";
+        h2.textContent = "Tour du Joueur 1";
+        h2.textContent = "Tour du Joueur 1";
+
+        toolbox.addClasses(divIA, ["col-1","offset-11"]);
+        toolbox.addClasses(label, ["text-light"]);
+        label.textContent = "IA"
+        divIA.id = "test";
+        input.id = "IA";
+        
+        if (this.isIAOn){
+            input.checked = true
+        } else (input.checked = false);
+
+        input.setAttribute("type", "checkbox");
+
+        toolbox.addClasses(divPlateau, ["row"]);
+        toolbox.addClasses(divJ1, ["col-2", "display-5", "font-weight-bold", "text-light"]);
+        toolbox.addClasses(divGrille, ["col-8", "d-flex", "justify-content-center"]);
+        toolbox.addClasses(divJ2, ["col-2", "display-5", "font-weight-bold", "text-light"]);
 
         let imgJ1 = document.createElement("img");
         let imgJ2 = document.createElement("img");
@@ -89,8 +138,8 @@ let jeu = {
         imgJ1.src = "./images/J1.png";
         imgJ2.src = "./images/J2.png";
     
-        j1.appendChild(imgJ1);
-        j2.appendChild(imgJ2);
+        divJ1.appendChild(imgJ1);
+        divJ2.appendChild(imgJ2);
     
         containerScoreJ1.textContent = this.pointJ1;
         containerScoreJ2.textContent = this.pointJ2;
@@ -98,19 +147,27 @@ let jeu = {
         toolbox.addClasses(imgJ1, ["bg-danger","rounded-circle"]);
         toolbox.addClasses(imgJ2, ["bg-info","rounded-circle"]);
     
-        toolbox.addClasses(j1, ["text-center","align-self-center"]);
-        toolbox.addClasses(j2, ["text-center","align-self-center"]);
+        toolbox.addClasses(divJ1, ["text-center","align-self-center"]);
+        toolbox.addClasses(divJ2, ["text-center","align-self-center"]);
     
-        j1.appendChild(containerScoreJ1);
-        j2.appendChild(containerScoreJ2);
+        divJ1.appendChild(containerScoreJ1);
+        divJ2.appendChild(containerScoreJ2);
 
-        let btnIA = document.getElementById("IA");
-        btnIA.addEventListener("change", ()=> {
-        this.isIAOn = !this.isIAOn;
-        })
+        divJ1.id = "j1";
+        divJ2.id = "j2";
+        divGrille.id = "jeu";
 
-        this.initialisation();
-        this.afficherPuissance4();
+        divIA.appendChild(input);
+        divIA.appendChild(label);
+
+        divPlateau.appendChild(divJ1);
+        divPlateau.appendChild(divGrille);
+        divPlateau.appendChild(divJ2);
+
+        sousContainer.appendChild(h2);
+        sousContainer.appendChild(divIA);
+        sousContainer.appendChild(divPlateau);
+
     },
 
     /**
