@@ -32,6 +32,7 @@ let jeu = {
     gererFinJeu : function(){
 
         let tourJoueurIndication = document.getElementById("tourJoueurIndication");
+        let divHeader = document.getElementById("divHeader");
 
         let buttons = document.getElementsByClassName("bouton")
         for (let i = 0; i < buttons.length; i++) {
@@ -44,11 +45,10 @@ let jeu = {
 
         tourJoueurIndication.textContent = "Partie terminée, le gagnant est le joueur " + this.joueurEnCours;
         btnReplay.textContent = "Rejouer";
-        toolbox.addClasses(btnReplay, ["btn","btn-secondary","m-4"]);
+        toolbox.addClasses(btnReplay, ["btn","btn-secondary", "my-auto", "btn-replay"]);
         btnReplay.setAttribute("type", "button");
         
-        // tourJoueurIndication.appendChild(alertMessage);
-        tourJoueurIndication.appendChild(btnReplay);
+        divHeader.appendChild(btnReplay);
 
         if(this.joueurEnCours === 1){
             this.pointJ1++;
@@ -96,6 +96,10 @@ let jeu = {
 
         let sousContainer = document.getElementById("sous-container");
 
+        let divHeader = document.createElement("div");
+        divHeader.id = "divHeader";
+        toolbox.addClasses(divHeader, ["bg-primary", "d-flex", "justify-content-center"]);
+
         let h2 = document.createElement("h2");
 
         let divIA = document.createElement("div");
@@ -108,13 +112,12 @@ let jeu = {
         let divGrille = document.createElement("div");
         let divJ2 = document.createElement("div");
         divJ2.id = "divJ2"
-        toolbox.addClasses(h2, ["bg-primary","text-white","rounded-lg","p-3", "text-center", "justify-content-center", "mt-1", "mb-0"]);
+        toolbox.addClasses(h2, ["bg-primary","text-white","rounded-lg","p-2", "text-center", "justify-content-center", "mt-1", "mb-0"]);
         h2.id = "tourJoueurIndication";
-        h2.textContent = "Tour du Joueur 1";
         h2.textContent = "Tour du Joueur 1";
 
         toolbox.addClasses(divIA, ["col-1","offset-11"]);
-        toolbox.addClasses(label, ["text-light"]);
+        toolbox.addClasses(label, ["text-light", "m-1"]);
         label.textContent = "IA"
         divIA.id = "test";
         input.id = "IA";
@@ -164,7 +167,9 @@ let jeu = {
         divPlateau.appendChild(divGrille);
         divPlateau.appendChild(divJ2);
 
-        sousContainer.appendChild(h2);
+        divHeader.appendChild(h2)
+
+        sousContainer.appendChild(divHeader);
         sousContainer.appendChild(divIA);
         sousContainer.appendChild(divPlateau);
 
