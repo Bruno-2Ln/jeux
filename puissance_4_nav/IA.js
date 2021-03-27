@@ -52,7 +52,8 @@ let IA = {
      * Fonction permettant de calculer quel coup doit faire l'IA, 
      * il faut vérifier si l'IA peut gagner --> on retourne un poids de 100, 
      * si l'IA peut perdre --> on retourne un poids de 99. 
-     * Autres cas : Éviter un coup qui fera perdre l'IA au tour suivant, défendre et bloquer
+     * Autres cas : Éviter un coup qui fera perdre l'IA au tour suivant; ce cas renverra
+     * 0.1 pour différencier des colonnes remplies qui renvoient 0, défendre et bloquer
      * 2 jetons adverses qui se suivent et inversement attaquer en positionnant un 3ème
      * jetons pour l'IA et additionner les poids.
      * @param {Number} ligne 

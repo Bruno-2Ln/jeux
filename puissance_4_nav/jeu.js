@@ -256,7 +256,7 @@ let jeu = {
         }
         let btnIA = document.getElementById('IA');
         if (this.nbrCellulesVides !== 42){
-            btnIA.setAttribute("disabled", "")
+            //btnIA.setAttribute("disabled", "")
             console.log(this.nbrCellulesVides);
         }
 
@@ -312,7 +312,7 @@ let jeu = {
                             if(!this.verificationFinJeu(1) && !this.verificationFinJeu(2) && this.nbrCellulesVides === 0){
                                 return this.matchNul();
                             }
-                            
+
                             if(this.joueurEnCours === 1){
                                 this.joueurEnCours = 2;
                                 tourJoueurIndication.textContent = "Tour du Joueur 2";
