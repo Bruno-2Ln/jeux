@@ -33,17 +33,20 @@ let jeu = {
         for (let i = 0; i < buttons.length; i++) {
             buttons[i].setAttribute("disabled", "");
         }
-
+        let containerBtnReplay = document.createElement("div");
         let btnReplay = document.createElement("button");
         
         let btnIA = document.getElementById("IA");
 
         tourJoueurIndication.textContent = "Match nul !!"
         btnReplay.textContent = "Rejouer";
-        toolbox.addClasses(btnReplay, ["btn","btn-secondary", "my-auto", "btn-replay", "m-4"]);
+        toolbox.addClasses(btnReplay, ["btn","btn-secondary", "my-auto", "btn-replay", "w-100"]);
         btnReplay.setAttribute("type", "button");
+
+        toolbox.addClasses(containerBtnReplay, ["d-flex","justify-content-center"]);
         
-        divHeader.appendChild(btnReplay);
+        containerBtnReplay.appendChild(btnReplay);
+        divHeader.appendChild(containerBtnReplay);
 
         btnReplay.addEventListener("click", function(){
             btnIA.removeAttribute("disabled");
@@ -65,17 +68,19 @@ let jeu = {
         for (let i = 0; i < buttons.length; i++) {
             buttons[i].setAttribute("disabled", "");
         }
-
+        let containerBtnReplay = document.createElement("div");
         let btnReplay = document.createElement("button");
         
         let btnIA = document.getElementById("IA");
 
         tourJoueurIndication.textContent = "Partie terminée, le gagnant est le joueur " + this.joueurEnCours;
         btnReplay.textContent = "Rejouer";
-        toolbox.addClasses(btnReplay, ["btn","btn-secondary", "my-auto", "btn-replay", "m-4"]);
+        toolbox.addClasses(btnReplay, ["btn","btn-secondary", "my-auto", "btn-replay",  "w-100"]);
         btnReplay.setAttribute("type", "button");
+        toolbox.addClasses(containerBtnReplay, ["d-flex","justify-content-center"]);
         
-        divHeader.appendChild(btnReplay);
+        containerBtnReplay.appendChild(btnReplay);
+        divHeader.appendChild(containerBtnReplay);
 
         if(this.joueurEnCours === 1){
             this.pointJ1++;
@@ -227,7 +232,8 @@ let jeu = {
             for (let j =0 ; j < this.nbColonne ; j++){
 
                 let cellule = document.createElement("td")
-                let img = document.createElement("img");
+                // let img = document.createElement("img");
+                let jeton = document.createElement("div");
 
                 toolbox.addClasses(cellule, ["bg-dark","border","text-center","format-cellule"]);
 
@@ -236,18 +242,20 @@ let jeu = {
                     this.nbrCellulesVides++
                 } else if(this.puissance4[i][j]=== 1){
 
-                    img.setAttribute("src", "./images/J1.png");
-
-                    toolbox.addClasses(img, ["bg-danger","rounded-circle"]);
+                    // img.setAttribute("src", "./images/J1.png");
+                    toolbox.addClasses(jeton, ["bg-danger","rounded-circle", "w-100", "h-100"]);
+                    
+                    // toolbox.addClasses(img, ["bg-danger","rounded-circle"]);
 
                 } else if(this.puissance4[i][j]=== 2){
 
-                    img.setAttribute("src", "./images/J2.png");
-
-                    toolbox.addClasses(img, ["bg-info","rounded-circle"]);
+                    // img.setAttribute("src", "./images/J2.png");
+                    toolbox.addClasses(jeton, ["bg-info","rounded-circle", "w-100", "h-100"]);
+                    // toolbox.addClasses(img, ["bg-info","rounded-circle"]);
+                    
                 }
 
-                cellule.appendChild(img);
+                cellule.appendChild(jeton);
                 ligne.appendChild(cellule);
             }
 

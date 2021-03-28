@@ -21,3 +21,33 @@ html, body {
 .btn-replay{
     width: 10%;
 }
+
+@media screen and (max-width: 1200px){
+	.format-cellule{
+		min-width: 80.2px;
+		height: 80px;
+	}
+}
+
+@media screen and (max-width: 992px){
+	#divHeader{
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		padding: 2%;
+	}
+}
+
+@media screen and (max-width: 630px){
+	.format-cellule{
+		min-width: 50.2px;
+		height: 50px;
+	}
+}
+
+@media screen and (max-width: 375px){
+	.format-cellule{
+		min-width: 25.2px;
+		height: 25px;
+	}
+}
