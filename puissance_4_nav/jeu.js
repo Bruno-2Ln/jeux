@@ -112,10 +112,23 @@ let jeu = {
         this.isBtnActivateIA();
     },
 
+    /**
+     * Fonction permettant d'activer et de désactiver l'IA avant de commencer une partie.
+     * La checkbox va également changer la couleur du jeton du second joueur en fonction de s'il
+     * s'agit d'un joueur humain ou de l'IA
+     */
     isBtnActivateIA : function() {
         let btnIA = document.getElementById("IA");
+        let j2OrIA = document.getElementById("j2OrIA");
         btnIA.addEventListener("change", ()=> {
         this.isIAOn = !this.isIAOn;
+        if (this.isIAOn) {
+            j2OrIA.classList.toggle("bg-info");
+            j2OrIA.classList.toggle("bg-success");
+        } else {
+            j2OrIA.classList.toggle("bg-info");
+            j2OrIA.classList.toggle("bg-success");
+        }
         console.log(this.isIAOn);
         console.log("test");
         })
@@ -160,13 +173,15 @@ let jeu = {
 
         input.setAttribute("type", "checkbox");
 
-        toolbox.addClasses(divPlateau, ["row"]);
+        toolbox.addClasses(divPlateau, ["row","offset-1"]);
         toolbox.addClasses(divJ1, ["col-2", "display-5", "font-weight-bold", "text-light"]);
-        toolbox.addClasses(divGrille, ["col-8", "d-flex", "justify-content-center"]);
+        toolbox.addClasses(divGrille, ["col-7", "d-flex", "justify-content-center"]);
         toolbox.addClasses(divJ2, ["col-2", "display-5", "font-weight-bold", "text-light"]);
 
         let imgJ1 = document.createElement("img");
         let imgJ2 = document.createElement("img");
+        imgJ2.id = "j2OrIA";
+
         let containerScoreJ1 = document.createElement("p");
         let containerScoreJ2 = document.createElement("p");
     
@@ -180,7 +195,12 @@ let jeu = {
         containerScoreJ2.textContent = this.pointJ2;
     
         toolbox.addClasses(imgJ1, ["bg-danger","rounded-circle"]);
-        toolbox.addClasses(imgJ2, ["bg-info","rounded-circle"]);
+        if (!this.isIAOn){
+            toolbox.addClasses(imgJ2, ["bg-info","rounded-circle"]);
+        } else {
+            toolbox.addClasses(imgJ2, ["bg-success","rounded-circle"]);
+        }
+        
     
         toolbox.addClasses(divJ1, ["text-center","align-self-center"]);
         toolbox.addClasses(divJ2, ["text-center","align-self-center"]);
@@ -248,9 +268,13 @@ let jeu = {
                     // toolbox.addClasses(img, ["bg-danger","rounded-circle"]);
 
                 } else if(this.puissance4[i][j]=== 2){
-
+                    if (!this.isIAOn){
+                        toolbox.addClasses(jeton, ["bg-info","rounded-circle", "w-100", "h-100"]);
+                    } else {
+                        toolbox.addClasses(jeton, ["bg-success","rounded-circle", "w-100", "h-100"]);
+                    }
                     // img.setAttribute("src", "./images/J2.png");
-                    toolbox.addClasses(jeton, ["bg-info","rounded-circle", "w-100", "h-100"]);
+                    
                     // toolbox.addClasses(img, ["bg-info","rounded-circle"]);
                     
                 }
@@ -264,7 +288,7 @@ let jeu = {
         }
         let btnIA = document.getElementById('IA');
         if (this.nbrCellulesVides !== 42){
-            //btnIA.setAttribute("disabled", "")
+            btnIA.setAttribute("disabled", "")
             console.log(this.nbrCellulesVides);
         }
 
