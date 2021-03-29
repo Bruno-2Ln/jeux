@@ -10,7 +10,7 @@ html, body {
 }
 
 #container {
-    background-color: #333;
+	background-color: #333;
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -19,15 +19,16 @@ html, body {
 }
 
 .btn-replay{
-    width: 10%;
+	width: 10%;
 }
 
-@media screen and (max-width: 1200px){
+@media screen and (max-height: 740px){
 	.format-cellule{
 		min-width: 80.2px;
-		height: 80px;
+		height: 90px;
 	}
 }
+
 
 @media screen and (max-width: 992px){
 	#divHeader{
@@ -51,3 +52,4 @@ html, body {
 		height: 25px;
 	}
 }
+

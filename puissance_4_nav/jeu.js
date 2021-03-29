@@ -161,7 +161,7 @@ let jeu = {
         h2.id = "tourJoueurIndication";
         h2.textContent = "Tour du Joueur 1";
 
-        toolbox.addClasses(divIA, ["col-1","offset-11"]);
+        toolbox.addClasses(divIA, ["col-1","offset-10"]);
         toolbox.addClasses(label, ["text-light", "m-1"]);
         label.textContent = "IA"
         divIA.id = "test";
@@ -252,7 +252,7 @@ let jeu = {
             for (let j =0 ; j < this.nbColonne ; j++){
 
                 let cellule = document.createElement("td")
-                // let img = document.createElement("img");
+
                 let jeton = document.createElement("div");
 
                 toolbox.addClasses(cellule, ["bg-dark","border","text-center","format-cellule"]);
@@ -262,10 +262,8 @@ let jeu = {
                     this.nbrCellulesVides++
                 } else if(this.puissance4[i][j]=== 1){
 
-                    // img.setAttribute("src", "./images/J1.png");
                     toolbox.addClasses(jeton, ["bg-danger","rounded-circle", "w-100", "h-100"]);
-                    
-                    // toolbox.addClasses(img, ["bg-danger","rounded-circle"]);
+
 
                 } else if(this.puissance4[i][j]=== 2){
                     if (!this.isIAOn){
@@ -273,10 +271,6 @@ let jeu = {
                     } else {
                         toolbox.addClasses(jeton, ["bg-success","rounded-circle", "w-100", "h-100"]);
                     }
-                    // img.setAttribute("src", "./images/J2.png");
-                    
-                    // toolbox.addClasses(img, ["bg-info","rounded-circle"]);
-                    
                 }
 
                 cellule.appendChild(jeton);
