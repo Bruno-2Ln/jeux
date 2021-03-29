@@ -22,14 +22,6 @@ html, body {
 	width: 10%;
 }
 
-@media screen and (max-height: 740px){
-	.format-cellule{
-		min-width: 80.2px;
-		height: 90px;
-	}
-}
-
-
 @media screen and (max-width: 992px){
 	#divHeader{
 		display: flex;
